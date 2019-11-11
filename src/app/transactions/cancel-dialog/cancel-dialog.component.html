@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="bloc-title">
+        <div>Confirmation</div>
+    </div>
+    <p>Souhaitez-vous annuler {{isAdding?'cette transaction':'les modications'}} ?</p>
+    <div class="bloc-button">
+        <button mat-button color="primary" mat-dialog-close>{{isAdding?'NON':'ANNULER'}}</button>
+        <button mat-button color="primary" mat-dialog-close="ok">{{isAdding?'OUI':'IGNORER'}}</button>
+    </div>
+</div>

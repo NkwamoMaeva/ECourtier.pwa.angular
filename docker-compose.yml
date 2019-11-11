@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  pwa_angular:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecourtier-pwa
+    image: pphsarl/ecourtier-pwa:19.09
+    restart: unless-stopped
+    env_file: 
+      - .env
+    environment:
+      PWA_ANGULAR_ENV: development
+      PWA_ANGULAR_PORT: ${PWA_ANGULAR_PORT}
+    volumes:
+      - type: bind
+        source: ./
+        target: /usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - target: 80
+        published: ${PWA_ANGULAR_PORT}
+        protocol: tcp
+        mode: host

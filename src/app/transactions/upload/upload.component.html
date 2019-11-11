@@ -1,0 +1,196 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  class="w-100"
+>
+  <h2>Fichier de transactions</h2>
+  <span fxFlex></span>
+  <button
+    mat-icon-button
+    (click)="close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-card
+  class="main"
+  style="
+max-width: 500px;
+"
+>
+  <div
+    class="element-1"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+  >
+    <div
+      fxLayout.gt-xs="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="8px"
+      fxLayout="column"
+    >
+      <mat-form-field class="check-size">
+        <mat-select
+          [(value)]="insurer"
+          #select
+          placeholder="Selectionner un assureur"
+        >
+          <mat-option
+            *ngFor="let x of insurers; let i = index"
+            [value]="i"
+          >{{x.short_name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="check-size">
+        <mat-select
+          [(value)]="type"
+          #selectType
+          placeholder="Type de transactions"
+        >
+          <mat-option value="1">Borderaux</mat-option>
+          <mat-option value="2">Commissions</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="!readyToSend">
+      <div>
+        <div
+        class="uploadfilecontainer"
+        (click)="fileInput.click()"
+        appDragDrop
+        [style.margin]="'16px 160px'"
+        (onFileDropped)="setFile($event)"
+      >
+        <input
+          hidden
+          type="file"
+          #fileInput
+          (change)="setFile($event)"
+        >
+      </div>
+      <div
+        class="files-list"
+        *ngIf="file"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        <div style="color: red"> {{ file.name }} </div>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutGap="12px"
+        fxLayoutAlign="center center"
+      >
+        <div>
+          <p
+            class="para"
+            fxLayout="column"
+            fxLayoutGap="12px"
+            fxLayoutAlign="center center"
+          >
+            <span>
+              Faites glisser et deposer dans cette zone un fichier de donnees a analyser ou alors selectionner le
+              fichier
+              depuis le bouton ci dessous.
+            </span>
+            <span style="font-size: 11px">
+              Pour le moment les seuls les formats xls, xlsx, et csv sont supportés
+            </span>
+          </p>
+        </div>
+     
+      </div>
+      </div>
+    </div>
+    <div *ngIf="readyToSend && file.type !='application/pdf'">
+      <div>
+        <div
+        class="uploadfilecontainer"
+        (click)="fileInput.click()"
+        appDragDrop
+        [style.margin]="'16px 160px'"
+        (onFileDropped)="setFile($event)"
+      >
+        <input
+          hidden
+          type="file"
+          #fileInput
+          (change)="setFile($event)"
+        >
+      </div>
+      <div
+        class="files-list"
+        *ngIf="file"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        <div style="color: red"> {{ file.name }} </div>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutGap="12px"
+        fxLayoutAlign="center center"
+      >
+        <div>
+          <p
+            class="para"
+            fxLayout="column"
+            fxLayoutGap="12px"
+            fxLayoutAlign="center center"
+          >
+            <span>
+              Faites glisser et deposer dans cette zone un fichier de donnees a analyser ou alors selectionner le
+              fichier
+              depuis le bouton ci dessous.
+            </span>
+            <span style="font-size: 11px">
+              Pour le moment les seuls les formats xls, xlsx, et csv sont supportés
+            </span>
+          </p>
+        </div>
+     
+      </div>
+      </div>
+    </div>
+    <div *ngIf="readyToSend && file.type =='application/pdf'">
+      <mat-form-field>
+        <input matInput type="number" [(ngModel)]="commission" placeholder="Entrer la commission" [(ngModel)]="commission" #selectCommission required>
+        <mat-error> Commission required!</mat-error>
+      </mat-form-field>
+    </div>
+    <div
+      class="btn-properties"
+      fxLayout="column"
+      fxLayoutGap="12px"
+      fxLayoutAlign="center center"
+    >
+      <button
+        *ngIf="!readyToSend"
+        mat-raised-button
+        (click)="fileInput.click()"
+      >SELECTIONNER UN FICHIER
+      <input
+      hidden
+      type="file"
+      #fileInput
+      (change)="setFile($event)"
+    ></button>
+
+      <button
+        *ngIf="readyToSend && file.type =='application/pdf'"
+        mat-raised-button
+        style="width: 250px; color:#4B1585; font-size: 13px"
+        (click)="add(select.value, selectType.value,commission)"
+      >ENREGISTRER LA TRANSACTION</button>
+
+      <button
+        mat-raised-button
+        style="width: 250px; color:rgb(3, 3, 3); font-size: 13px"
+        *ngIf="readyToSend && file.type != 'application/pdf'"
+        mat-raised-button
+        (click)="upload(select.value, selectType.value)"
+      >ENVOYER FICHIER</button>
+    </div>
+  </div>
+</mat-card>

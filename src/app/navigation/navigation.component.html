@@ -1,0 +1,171 @@
+<div
+  class="container"
+  [class.is-mobile]="mobileQuery.matches"
+>
+  <mat-toolbar
+    color="primary"
+    class="toolbar mat-elevation-z4"
+    fxLayout="row"
+  >
+    <button
+      mat-icon-button
+      (click)="mobileQuery.matches ? snav.toggle() : toggleSidenav()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1
+      class="app-name"
+      fxFlex="100%"
+    ><img src="assets/Logo_white.png"></h1>
+    <img
+      src="assets/entreprise.jfif"
+      class="default-icon margin-in-toolbar"
+    >
+    <!-- <span
+      #tooltip="matTooltip"
+      [matTooltip]="user[0].username|| 'Admin' "
+      style="
+                font-size: 13px;
+                margin: auto 8px;
+                user-select: none;
+                cursor: pointer;"
+    >{{user[0].username || 'Admin'}}</span> -->
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="beforeMenu"
+    >
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu
+      #beforeMenu="matMenu"
+      xPosition="before"
+    >
+      <!-- <button mat-menu-item>
+        <mat-icon>settings</mat-icon>Paramètres
+      </button> -->
+      <button
+        mat-menu-item
+        (click)="logout()"
+      >
+        <mat-icon>meeting_room</mat-icon>Deconnexion
+      </button>
+    </mat-menu>
+
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [@onSideNavChange]="sidenavChanged|| mobileQuery.matches ? 'open': 'close'"
+      [opened]="!mobileQuery.matches"
+      [mode]="mobileQuery.matches ? 'hover' : 'side'"
+    >
+      <mat-nav-list>
+        <a
+          class="mnu-link"
+          mat-list-item
+          [routerLink]="nav.link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact:
+            false}"
+          *ngFor="let nav of fillerNav"
+          (click)="refreshData()"
+          [matTooltip]="nav.text"
+        >
+          <mat-icon>{{nav.icon}}</mat-icon>
+          <span [@animateText]="linkText || mobileQuery.matches ? 'show' : 'hide'">{{nav.text}}</span>
+        </a>
+        <a
+          class="mnu-link"
+          mat-list-item
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact:
+            false}"
+          (click)="openDialog()"
+          matTooltip='Paramètres'
+        >
+          <mat-icon>settings</mat-icon>
+          <span [@animateText]="linkText || mobileQuery.matches ? 'show' : 'hide'">Paramètres</span>
+        </a>
+      </mat-nav-list>
+      <!--  -->
+    </mat-sidenav>
+
+    <mat-sidenav-content [@onMainContentChange]="sidenavChanged || mobileQuery.matches ? 'open': 'close'">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="space-between center"
+        fxLayoutGap.xs="12px"
+        *ngIf="!hideHeader"
+        class="content-header"
+      >
+        <h1 > {{title}}</h1>
+     
+          <div fxLayoutGap="12px">
+            <span
+            *ngIf="showDateFilters">Du</span>
+            <div
+              class="btn-1"
+              *ngIf="showDateFilters"
+              (click)="picker1.open()"
+            >
+            
+              <input
+                [formControl]="startDateFilter"
+                [matDatepicker]="picker1"
+                (valueChange)="selectByTri('start', $event.value)"
+              >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              >
+                <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker
+                #picker1
+                startView="multi-year"
+                (yearSelected)="chosenYearHandler(startDateFilter, $event)"
+                (monthSelected)="chosenMonthHandler(startDateFilter, $event, picker1)"
+                class="datepicker-control"
+              ></mat-datepicker>
+            </div>
+            <span *ngIf="showDateFilters">au</span>
+
+            <div
+              class="btn-1"
+              *ngIf="showDateFilters"
+              (click)="picker2.open()"
+            >
+              <input
+                [formControl]="endDateFilter"
+                [matDatepicker]="picker2"
+                (valueChange)="selectByTri('end', $event.value)"
+              >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              >
+                <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker
+                #picker2
+                startView="multi-year"
+                (yearSelected)="chosenYearHandler(endDateFilter, $event)"
+                (monthSelected)="chosenMonthHandler(endDateFilter, $event, picker2)"
+                class="datepicker-control"
+              ></mat-datepicker>
+            </div>
+
+          </div>
+        
+      </div>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

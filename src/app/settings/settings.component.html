@@ -1,0 +1,111 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  class="w-100"
+>
+  <h2>Paramètre de base de donnée</h2>
+  <span fxFlex></span>
+  <button
+    mat-icon-button
+    (click)="close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-card
+  class="main"
+  style="height: 350px;"
+>
+<mat-tab-group>
+  <mat-tab label="Importer" style="height: 300px;">
+    <div
+    class="element-1"
+    fxLayout="column"
+    style="height: 300px;"
+    fxLayoutAlign="center center"
+  >   
+        <div
+        class="uploadfilecontainer"
+        (click)="fileInput.click()"
+        appDragDrop
+        (onFileDropped)="setFile($event)">
+        <input
+          hidden
+          type="file"
+          #fileInput
+          (change)="setFile($event)">
+     
+      <div
+        class="files-list"
+        *ngIf="file"
+        fxLayout="row"
+        fxLayoutAlign="center center">
+        <div style="color: red"> {{ file.name }} </div>
+      </div>
+      
+      </div>
+    
+      <div
+      fxLayout="column"
+      fxLayoutGap="12px"
+      fxLayoutAlign="center center">
+      <div>
+        <p
+          class="para"
+          fxLayout="column"
+          fxLayoutGap="12px"
+          fxLayoutAlign="center center">
+          <span>
+            Faites glisser et deposer dans cette zone un fichier de donnees a analyser ou alors selectionner le
+            fichier
+            depuis le bouton ci dessous.
+          </span>
+          <span style="font-size: 11px">
+            Le format supporté est le .sql
+          </span>
+        </p>
+      </div>
+   
+    </div>
+      <button
+        *ngIf="!readyToSend"
+        mat-raised-button
+        (click)="fileInput.click()">SELECTIONNER UN FICHIER
+      <input
+      hidden
+      type="file"
+      #fileInput
+      (change)="setFile($event)"></button>
+
+      <button
+        mat-raised-button
+        style="width: 250px; color:rgb(3, 3, 3); font-size: 13px"
+        *ngIf="readyToSend && file.type != 'application/pdf'"
+        mat-raised-button
+        (click)="upload()">ENVOYER FICHIER</button>
+
+    </div>
+  </mat-tab>
+  <mat-tab label="Exporter">
+    <div
+    class="element-1"
+    fxLayout="column"
+    style="height: 300px;"
+    fxLayoutAlign="center center">
+
+    <button
+        *ngIf="!readyToSend"
+        color="primary"
+        mat-raised-button
+        (click)="fileInput.click()">EXPORTER
+      <input
+      hidden
+      type="file"
+      #fileInput
+      (change)="setFile($event)"></button>
+  </div>
+  </mat-tab>
+</mat-tab-group>
+  
+   
+</mat-card>

@@ -1,0 +1,117 @@
+h2 {
+  font-size: 18px !important;
+  // color: #f15c3a
+}
+
+.uploadfilecontainer {
+  background-image: url(/assets/uploadImage.png);
+  background-repeat: no-repeat;
+  background-size: 100px;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 100px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.uploadfilecontainer:hover {
+  cursor: pointer;
+  border: 2px dashed #1C8ADB;
+  opacity: 0.8;
+  box-sizing: border-box;
+}
+
+.files-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  background: #ffffff;
+  border: 1px dashed;
+  border-radius: 4px;
+  padding: 5px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  color: #1c8adb;
+}
+
+.mat-option {
+  font-size: 13px !important;
+}
+
+.files-list .delete-file {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.files-list .delete-file img {
+  width: 30px;
+}
+
+.main {
+  font-family: Poppins;
+  background: #F8F8F8;
+  border-end-end-radius: none !important;
+  border-end-start-radius: none !important;
+  box-sizing: border-box !important;
+}
+
+.btn-color {
+  background-color: #4B1585;
+  color: white;
+}
+
+.para {
+  margin: 0 auto;
+  text-align: center;
+
+  span:first-child {
+    font-size: 13px;
+  }
+}
+
+
+.btn-properties {
+  margin: 20px;
+}
+
+.check-size {}
+
+.p-header {
+  font-size: 18px;
+  color: #f15c3a;
+}
+
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"]+label {
+  background-color: #4B1585;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 0.4rem 20px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+
+@media (max-width:600px) {
+  .main {
+    box-shadow: none;
+    background: none;
+  }
+}
