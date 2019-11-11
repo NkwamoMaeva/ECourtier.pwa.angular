@@ -1,0 +1,53 @@
+form {
+    width: 100%;
+    mat-form-field {
+        width: 100%;
+        mat-icon {
+            color: rgba(0, 0, 0, 0.54);
+            user-select: none;
+        }
+    }
+}
+
+mat-toolbar {
+    height: 128px;
+    .title-app-name img {
+        width: 18rem;
+    }
+}
+
+h1 {
+    font-weight: lighter;
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+h3 {
+    margin: 0;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+p {
+    color: rgba(0, 0, 0, 0.64);
+    font-weight: 100;
+    text-align: justify;
+    font-size: 14px;
+    margin: 8px 0px;
+}
+
+.main {
+    padding: 32px;
+    margin-top: 16px;
+    .connection-form {
+        min-width: 300px;
+        @media (max-width: 600px) {
+            width: 100%;
+        }
+        // margin: auto;
+    }
+    .description {
+        border-left: 1px solid rgba(0, 0, 0, 0.40);
+        padding-left: 24px;
+    }
+}

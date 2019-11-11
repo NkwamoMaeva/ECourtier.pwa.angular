@@ -1,0 +1,182 @@
+<div class="mat-elevation-z2">
+  <div
+    fxLayout="column"
+    class="w-100 h-100"
+  >
+    <mat-toolbar>
+      <span [fxFlex]="isSearch ? '0' : '100%'"></span>
+      <mat-form-field
+        [fxFlex]="isSearch ? '100%' : '0'"
+        class="search-text"
+        color="primary"
+        floatPlaceholder="never"
+      >
+        <input
+          type="text"
+          matInput
+          (keyup)="applyFilter($event.target.value)"
+        >
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="isSearch = !isSearch"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="beforeMenu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu
+        #beforeMenu="matMenu"
+        xPosition="before"
+      >
+        <button
+          mat-menu-item
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>Actualiser
+        </button>
+        <!-- <button
+          mat-menu-item
+          (click)="edit(selection.selected[0])"
+          *ngIf="selection.hasValue() && !selection.isMultipleSelection()"
+        >
+          <mat-icon>edit</mat-icon>Modifier
+        </button> -->
+        <button
+          mat-menu-item
+          (click)="openDialog()"
+        >
+          <mat-icon style="color:brown">delete</mat-icon>Supprimer
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <div
+      class="table-wrapper"
+      [style.height]="'100%'"
+    >
+      <mat-table
+        #table
+        matSort
+        class="w-100"
+        [dataSource]="dataSource"
+      >
+
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+              >
+              </mat-checkbox>
+            </mat-header-cell>
+
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(element) : null"
+            [checked]="selection.isSelected(element)"
+            [(ngModel)]="element.checked"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Nom Column -->
+        <ng-container matColumnDef="short_name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+          <mat-cell *matCellDef="let element" (click)=" showDetail(element.short_name)">
+              <div
+              fxLayout="row"
+              fxLayoutAlign="start center"
+              fxLayoutGap="8px"
+            >
+              <img
+              *ngIf="element.image_path == null || element.image_path === undefined"
+                class="avatar"
+                src="../../assets/entreprise.jfif"
+                alt=""
+              >
+              <img
+              *ngIf="element.image_path !== null"
+                class="avatar"
+                [src]="'http://localhost:9001/'+element.image_path"
+                alt=""
+              >
+                <span> {{element.short_name}}</span>
+            </div>
+             </mat-cell>
+        </ng-container>
+
+
+        <!-- description Column -->
+    <ng-container matColumnDef="description">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+
+
+        <!-- commisions Column -->
+      <ng-container matColumnDef="dues">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Commisions Dues </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.dues}} </mat-cell>
+      </ng-container>
+
+
+        <!-- commisions Column -->
+        <ng-container matColumnDef="regles">
+            <mat-header-cell mat-sort-header *matHeaderCellDef> Commisions réglées </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.regles}} </mat-cell>
+          </ng-container>
+
+        <ng-container matColumnDef="more-actions">
+          <mat-header-cell
+            *matHeaderCellDef
+          ></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="tableMenu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu
+              #tableMenu="matMenu"
+              xPosition="before"
+            >
+              <!-- (click)="edit(element)" -->
+              <button mat-menu-item (click)="openDialogUpdate(element)">
+                <mat-icon>edit</mat-icon>Modifier
+              </button>
+              <button mat-menu-item (click)="openDialog(element.id)" >
+                  <mat-icon style="color:brown">delete</mat-icon>Supprimer
+                </button>
+
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+        <mat-row
+          matRipple
+          *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row);"
+        ></mat-row>
+      </mat-table>
+    </div>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      *ngIf="!!dataSource"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+
+  <button
+    mat-fab
+    color="primary"
+    class="add-btn"
+    (click)="addInsurer()"
+  >
+    <i class="material-icons">add</i>
+  </button>
+</div>

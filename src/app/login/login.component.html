@@ -1,0 +1,69 @@
+<div>
+    <mat-toolbar color="primary" class="mat-elevation-z2">
+        <h1 class="title-app-name"><img src="../../assets/Logo_white.png"></h1>
+    </mat-toolbar>
+    <div class="main" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center start" fxLayoutGap="32px">
+        <div fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start start" class="connection-form">
+            <h1>Se Connecter</h1>
+            <form fxLayout="column" [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayoutGap="8px">
+                <div class="">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nom d'utilisateur</mat-label>
+                        <input type="text" formControlName="username" class="mat-input-element input-text-size" matInput placeholder="Email" />
+                        <i class="material-icons" matSuffix>account_circle</i>
+                        <mat-error *ngIf="f['username'].invalid">Nom d'utilisateur requis</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mot de passe</mat-label>
+                        <input type="password" formControlName="password" class="mat-input-element input-text-size" matInput placeholder="Email" />
+                        <i class="material-icons" matSuffix>vpn_key</i>
+                        <mat-error *ngIf="f['password'].invalid">Mot de passe requis</mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-checkbox><span>Se souvenir de moi</span></mat-checkbox>
+                </div>
+                <button mat-raised-button color="primary" type="submit">SE CONNECTER</button>
+            </form>
+
+        </div>
+        <div fxLayout="column" fxLayoutGap="16px" fxFlex="100%" class="description">
+            <div fxLayout="column" class="w-100">
+                <h1>Nos fonctionalités ...</h1>
+                <div>
+                    <h3>Tableau du bord</h3>
+                    <p>
+                        Accéder à toutes les informations issues des données analysées dès l'ouverture de votre session utilisateur.Cet outil vous donne une vue globl sur les chiffre clé.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <h3>Gestion des assureurs</h3>
+                <p>
+                    Il est possible pour vous d'ajouter et de modifier une liste d'assureur avec lesquels afin meme par la suite de consulter les differents chiffres et valeurs pour les differents assureurs.
+                </p>
+            </div>
+
+            <div>
+                <h3>Gestion des commissions</h3>
+                <p>
+                    Il est desormais possible pour vous d'ajouter et de consulter une liste d'assureurs avec lesquels vous communiquez.
+                </p>
+            </div>
+            <div>
+                <h3>Extraction depuis des fichiers CSV et XLSX</h3>
+                <p>
+                    il est desormais possible pour vous de consulter la liste des assureurs avec lesquels vous collaborez .
+                </p>
+            </div>
+            <div>
+                <h3>Extraction à partir des fichiers PDF</h3>
+                <p>
+                    il est desormais possible pour vous de consulter la liste des assureurs avec lesquels vous collaborez .
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

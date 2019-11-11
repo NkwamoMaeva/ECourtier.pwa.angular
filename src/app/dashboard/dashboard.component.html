@@ -1,0 +1,135 @@
+<mat-grid-list
+  cols="4"
+  rowHeight="180px"
+>
+  <mat-grid-tile
+    *ngFor="let card of cards | async"
+    [colspan]="card.cols"
+    [rowspan]="card.rows"
+  >
+    <mat-card
+      [class]="(card.color ? card.color  : '')  + ' dashboard-card mat-card'"
+      fxLayout="column"
+      [style.padding.px]="16"
+    >
+      <mat-card-content
+        fxLayout="column"
+        class="dashboard-card-content"
+        fxFlex="100%"
+      >
+        <div
+          fxFlex="100%"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <div
+            class="content"
+            fxLayout="column"
+            fxLayoutAlign="center start"
+          >
+            <span
+              flex
+              class="span-stat-title"
+            >{{card.title}}</span>
+            <span
+              flex
+              class="mat-display-1"
+            >{{card.content}} €</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-grid-list
+  cols="4"
+  rowHeight="180px"
+>
+  <mat-grid-tile
+    [colspan]="handsetMatches ? 4 : 1"
+    rowspan="2"
+  >
+    <mat-card
+      class="bottom-cards mat-card"
+      fxLayout="column"
+    >
+      <mat-card-header fxLayout="column">
+        <mat-toolbar class="mat-elevation-z1">
+          <mat-toolbar-row fxFlex="100%">
+            <span fxFlex>Assureurs</span>
+            <a
+              [routerLink]="['/insurers']"
+              mat-icon-button
+              mat-button
+            >
+              <mat-icon>launch</mat-icon>
+            </a>
+
+          </mat-toolbar-row>
+
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content
+        fxLayout="column"
+        fxFlex="100%"
+      >
+        <mat-nav-list>
+          <a
+            mat-list-item
+            *ngFor="let trans of lastInsurersPaiements"
+            (click)="showDetail(trans.short_name)"
+          >
+            <img
+              matListAvatar
+              src="assets/entreprise.jfif"
+              alt=""
+            >
+            <h4 mat-line>{{trans.short_name}}</h4>
+            <p
+              mat-line
+              style="margin: 2px 0;"
+            > Impayé: <span class="red">{{convertNumber(trans.dues)}} €</span> </p>
+            <p mat-line> Payé: <span class="green">{{convertNumber(trans.regles)}} €</span> </p>
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <mat-divider></mat-divider>
+          </a>
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="handsetMatches ? 4 : 3"
+    rowspan="2"
+  >
+    <mat-card
+      class="bottom-cards mat-card"
+      fxLayout="column"
+    >
+      <mat-card-header fxLayout="column">
+        <mat-toolbar class="mat-elevation-z1">
+          <mat-toolbar-row>
+            <span fxFlex>Dernières transactions</span>
+            <a
+              [routerLink]="['/transactions']"
+              mat-icon-button
+              mat-button
+            >
+              <mat-icon>launch</mat-icon>
+            </a>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </mat-card-header>
+      <mat-card-content
+        fxLayout="column"
+        class="dashboard-card-content"
+        fxFlex="100%"
+      >
+        <app-transaction-board
+          [minimal]="true"
+          height="360px"
+          [transactions]="lastTransactions"
+        ></app-transaction-board>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

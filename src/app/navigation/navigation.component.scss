@@ -1,0 +1,138 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.content-header {
+  margin: 0 16px;
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.app-name {
+  margin-left: 8px;
+
+  img {
+    height: 36px;
+
+    @media (max-width: 600px) {
+      height: 24px;
+    }
+  }
+}
+
+.sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+  background: transparent;
+}
+
+mat-sidenav {
+  // min-width: 256px;
+  background: #fafafa;
+
+  a {
+    &.active {
+      color: #F95A16 !important;
+    }
+
+    &:not(.active) {
+      color: #333;
+    }
+
+    mat-icon {
+      padding-right: 9px;
+      padding-left: 9px;
+    }
+
+  }
+
+  .fab {
+    position: fixed;
+    bottom: 16px;
+    left: 6px;
+  }
+}
+
+mat-sidenav-content {
+  padding: 16px 16px 0 16px;
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    margin-left: 0px !important;
+  }
+}
+
+.is-mobile .sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+       `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+.date-picker,
+.date-picker-toggler {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  margin: 0 !important;
+}
+
+.datepicker-control {
+  margin: 0 !important;
+}
+
+h1.mat-1.glue {
+  font-family: Poppins;
+  font-size: 18px;
+  color: #f15c3a;
+}
+
+img.default-icon {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  margin: auto 4px;
+}
+
+.content {
+  height: calc(100vh - 138px);
+}
+
+div.btn-1 {
+  display: inline-block;
+  height: 36px;
+  border: 1px solid #DCDCDC;
+  border-radius: 4px;
+  padding-left: 16px;
+  max-width: 120px;
+  cursor: pointer;
+}
+
+div.btn-1 input {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  max-width: 72px;
+  transition: .1s;
+}
+
+div.btn-1 input:focus {
+  border: none;
+  background: none;
+}
+
+div.btn-1:hover {
+  transition: .1s;
+  background: #f0f0f0;
+}

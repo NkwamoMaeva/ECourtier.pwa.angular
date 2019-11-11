@@ -1,0 +1,12 @@
+<h2 mat-dialog-title> Confirmation</h2>
+<mat-dialog-content>Est-vous sûre de vouloir supprimer cette transaction?</mat-dialog-content>
+<br>
+  <mat-form-field>
+		<input matInput placeholder="User password" [(ngModel)]="password" autocomplete="new-password" required>
+    <mat-error>Password <strong>required</strong>!</mat-error>
+    <mat-hint>{{user['username']}}</mat-hint>
+	</mat-form-field><br><br>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close color="primary" (click)="deleteTransactions([id])">Confirmer</button>
+    <button mat-button mat-dialog-close>Annuler</button>
+  </mat-dialog-actions>

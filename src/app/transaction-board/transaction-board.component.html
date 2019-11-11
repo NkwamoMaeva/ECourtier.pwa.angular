@@ -1,0 +1,259 @@
+<div
+  fxLayout="column"
+  class="w-100 h-100"
+>
+  <mat-toolbar *ngIf="!minimal">
+    <button  *ngIf="filterTransac === undefined || filterTransac === null || filterTransac ==''"
+      mat-button
+      [matMenuTriggerFor]="filter"
+    > <span>{{selectedType}}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+
+    </button>
+    <mat-menu #filter="matMenu">
+      <button
+        mat-menu-item
+        (click)="filterType(0)"
+      >Toutes les transactions</button>
+      <button
+        mat-menu-item
+        (click)="filterType(1)"
+      >Tous les Bordoreaux</button>
+      <button
+        mat-menu-item
+        (click)="filterType(2)"
+      >Toutes les Commissions</button>
+    </mat-menu>
+    <mat-chip-list aria-label="Fish selection" *ngIf="transacs != null && transacs!= ''">
+        <mat-chip color="accent" selected>{{transacs}}</mat-chip>
+      </mat-chip-list>
+    
+    <span [fxFlex]="isSearch ? '0' : '100%'"></span>
+
+    <mat-form-field
+      [fxFlex]="isSearch ? '100%' : '0'"
+      class="search-text"
+      color="primary"
+      floatPlaceholder="never"
+    >
+      <input
+        type="text"
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+      >
+    </mat-form-field>
+    <button
+      mat-icon-button
+      (click)="isSearch = !isSearch"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="beforeMenu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu
+      #beforeMenu="matMenu"
+      xPosition="before"
+    >
+      <button
+        mat-menu-item
+        (click)="refresh()"
+      >
+        <mat-icon>refresh</mat-icon>Actualiser
+      </button>
+      <button
+        mat-menu-item
+        (click)="edit(selection.selected[0])"
+        *ngIf="selection.hasValue() && !selection.isMultipleSelection()"
+      >
+        <mat-icon>edit</mat-icon>Modifier
+      </button>
+      <button
+        mat-menu-item
+        (click)="deleteTransactions()"
+        *ngIf="selection.hasValue()"
+      >
+        <mat-icon style="color:brown">delete</mat-icon>Supprimer
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <div
+    class="table-wrapper"
+    [style.height]="height"
+  >
+    <mat-table
+      #table
+      matSort
+      [dataSource]="dataSource"
+    >
+
+      <ng-container
+        matColumnDef="select"
+        *ngIf="minimal === false"
+      >
+        <mat-header-cell
+          *matHeaderCellDef
+          class="normal-width"
+        >
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let row"
+          class="normal-width"
+        >
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="reference">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        > Référence </mat-header-cell>
+        <mat-cell
+          *matCellDef="let element"
+          color=primary
+        >
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="8px"
+          >
+            <img
+              class="logo-commssion"
+              [src]="data_typeIC[element.transaction_type_id-1]"
+            >
+            <span
+              [class.red]="element.type == 1"
+              [class.green]="element.transaction_type_id == 0"
+              class="text-commssion"
+            > {{element.reference}}</span>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        > Type </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.transaction_type.intitule}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="assureur">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        > Assureur </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <span >
+                      {{element.insurer?.short_name}}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="montant">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        > Montant </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span
+            class="text-commssion"
+            [class.red]="element.idTransaction_type == 2"
+            [class.green]="element.idTransaction_type == 1"
+          >
+            {{element.idTransaction_type == 2 ? '-': '+'}} {{element.amount}} €
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+          class="cell-content-650px"
+        > Date d'ajout </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{convertDate(element.creation_date)}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="genre">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        >Fichier</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button>
+            <img 
+              [class]="'img_genre'"
+              matRipple
+              style="height: 16px; width: 16px;"
+              *ngIf="element.file !== null && element.file !== undefined" 
+              [src]="data_ilg[getTypeOfFile(element.file.path_file)]"
+            >
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container
+        matColumnDef="more-actions"
+        *ngIf="minimal === false"
+      >
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+        ></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="tableMenu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu
+            #tableMenu="matMenu"
+            xPosition="before"
+          >
+            <button
+              mat-menu-item
+              (click)="edit(element)"
+            >
+              <mat-icon>edit</mat-icon>Modifier
+            </button>
+            <button
+              mat-menu-item
+              (click)="openDialog(element.id)"
+            >
+              <mat-icon style="color:brown">delete</mat-icon>Supprimer
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+      <mat-row
+        (click)="selection.toggle(row)"
+        matRipple
+        *matRowDef="let row; columns: displayedColumns;"
+      ></mat-row>
+    </mat-table>
+  </div>
+  <mat-paginator
+    [fxHide]="minimal"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

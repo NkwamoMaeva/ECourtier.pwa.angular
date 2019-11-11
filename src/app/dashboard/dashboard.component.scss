@@ -1,0 +1,110 @@
+.dashboard-card {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 8px;
+    &::before {
+        background: rgba(255, 255, 255, .1);
+        position: absolute;
+        top: 46.6666666667px;
+        right: 46.6666666667px;
+        height: 107.6923076923px;
+        width: 107.6923076923px;
+        content: "";
+        border-radius: 100%;
+    }
+    &::after {
+        background: rgba(255, 255, 255, .1);
+        position: absolute;
+        top: 12px;
+        right: -8px;
+        height: 107.6923076923px;
+        width: 107.6923076923px;
+        content: "";
+        border-radius: 100%;
+    }
+    mat-card-header .mat-card-header-text {
+        margin: 0px;
+    }
+    &.first {
+        background: -moz-linear-gradient(0deg, rgb(45, 172, 249) 0%, rgb(44, 171, 248) 100%);
+        background: -webkit-linear-gradient(0deg, rgb(45, 172, 249) 0%, rgb(44, 171, 248) 100%);
+        background: -ms-linear-gradient(0deg, rgb(45, 172, 249) 0%, rgb(44, 171, 248) 100%);
+        background: linear-gradient(0deg, rgb(45, 172, 249) 0%, rgb(44, 171, 248) 100%);
+    }
+    &.second {
+        background: -moz-linear-gradient(45deg, rgb(249, 86, 21) 0%, rgb(251, 207, 36) 100%);
+        background: -webkit-linear-gradient(45deg, rgb(249, 86, 21) 0%, rgb(251, 207, 36) 100%);
+        background: -ms-linear-gradient(45deg, rgb(249, 86, 21) 0%, rgb(251, 207, 36) 100%);
+        background: linear-gradient(45deg, rgb(249, 86, 21) 0%, rgb(251, 207, 36) 100%);
+    }
+    &.third {
+        background: -moz-linear-gradient(-126deg, rgb(0, 246, 150) 0%, rgb(0, 179, 230) 100%);
+        background: -webkit-linear-gradient(-126deg, rgb(0, 246, 150) 0%, rgb(0, 179, 230) 100%);
+        background: -ms-linear-gradient(-126deg, rgb(0, 246, 150) 0%, rgb(0, 179, 230) 100%);
+        background: linear-gradient(-126deg, rgb(0, 246, 150) 0%, rgb(0, 179, 230) 100%);
+    }
+    &.fourth {
+        background: -moz-linear-gradient(-45deg, rgb(221, 44, 0) 0%, rgb(255, 112, 67) 100%);
+        background: -webkit-linear-gradient(-45deg, rgb(221, 44, 0) 0%, rgb(255, 112, 67) 100%);
+        background: -ms-linear-gradient(-45deg, rgb(221, 44, 0) 0%, rgb(255, 112, 67) 100%);
+        background: linear-gradient(-45deg, rgb(221, 44, 0) 0%, rgb(255, 112, 67) 100%);
+    }
+    mat-toolbar {
+        background-color: white;
+    }
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.bottom-cards {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 1px;
+    padding: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    mat-toolbar {
+        background-color: white;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        margin-bottom: 12px;
+        mat-toolbar-row {
+            font-size: 16px;
+        }
+    }
+    .red {
+        font-weight: bold;
+        color: rgb(200, 0, 0);
+    }
+    .green {
+        font-weight: bold;
+        color: rgb(0, 128, 0);
+    }
+}
+
+.dashboard-card-content {
+    text-align: center;
+    height: 100%;
+    .content {
+        color: white;
+        .mat-display-1 {
+            white-space: nowrap;
+            margin-bottom: 0px;
+            font-size: 28px !important;
+            font-weight: bolder;
+        }
+    }
+}
+
+app-transaction-board {
+    height: inherit;
+}

@@ -1,0 +1,95 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start start"
+  fxLayoutGap="12px"
+>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    class="w-100"
+  >
+    <h3>Modifier l'assureur</h3>
+    <span fxFlex></span>
+    <button
+      mat-icon-button
+      (click)="close()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div
+    class="w-100"
+    appDragDrop
+    (onFileDropped)="setFile($event)"
+  >
+    <div
+      class="uploadfilecontainer insurer"
+      [class.imgNotLoad]="logoIsLoaded == false"
+      (click)="fileInput.click()"
+    >
+      <input
+        hidden
+        type="file"
+        accept="image/*"
+        #fileInput
+        (change)="setFile($event)"
+      >
+      <img
+        #logo
+        *ngIf="logoIsLoaded"
+        [src]="imgURL"
+        alt=""
+      >
+    </div>
+    <div
+      style="padding: 4px 16px"
+      fxFlex
+      fxLayout="column"
+      fxLayoutGap.xs="4px"
+      fxLayoutAlign="center center"
+    >
+      <div style="font-weight: 300">Vous pouvez glissez et déposez un fichier</div>
+      <div style="margin: 8px 0;font-weight: 300">ou</div>
+      <button
+        mat-button
+        mat-raised-button
+        color=""
+        (click)="fileInput.click()"
+      >Sélectionnez un fichier</button>
+    </div>
+  </div>
+  <mat-form-field class="w-100">
+    <input
+      matInput
+      [(ngModel)]="short_name"
+      placeholder="Nom"
+      value = "short_name"
+    >
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <input
+      matInput
+      [(ngModel)]="description"
+      placeholder="Description"
+      value="description"
+    >
+  </mat-form-field>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end start"
+    class="w-100"
+  >
+    <button
+      mat-button
+      style="color: #673AB7;"
+      (click)="close()"
+    >ANNULER</button>
+    <button
+      style="color: #673AB7;"
+      mat-button
+      color="primary"
+      (click)="updateInsureur()"
+    >MODIFIER</button>
+  </div>
+</div>

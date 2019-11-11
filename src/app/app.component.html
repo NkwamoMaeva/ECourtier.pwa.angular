@@ -1,0 +1,13 @@
+<router-outlet>
+</router-outlet>
+<div class="loader" [class.isVisible]="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <img src="assets/Logo_color.png" alt="logo" srcset="">
+</div>
+<div class="mat-elevation-z8 w-100 pwa-banner" fxLayout="row" fxLayoutAlign="start center" *ngIf="showInstall">
+    <h3 fxFlex>{{pwaMessage}}</h3>
+    <button mat-button color="primary" (click)="installPwa()">Installer</button>
+    <button mat-icon-button (click)="showInstall = false">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
