@@ -1,0 +1,184 @@
+<div
+  class="main-container"
+  fxLayout="column"
+>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end start"
+    style="padding: 0 0 16px 0"
+  >
+    <button
+      mat-raised-button
+      class="btn-1"
+      color=primary
+      style="margin-right: 16px"
+      (click)="annulation()"
+    >Annuler</button>
+    <button
+      mat-raised-button
+      class="btn-1"
+      (click)="save()"
+    >Enregistrer</button>
+  </div>
+  <div
+    fxLayout="column"
+    fxFlex="100%"
+    class=" mat-elevation-z4"
+    style="overflow: auto;background: #FCFCFC"
+  >
+    <div
+      class="basic-action-box"
+      fxLayout.gt-xs="row"
+      fxLayout="column"
+      fxLayoutGap.gt-xs="12px"
+      fxLayoutGap="8px"
+    >
+      <h2 style="margin-right: 0px !important;"># {{reference}}</h2>
+      <mat-form-field fxFlex>
+        <mat-select
+          value={{idInsurer}}
+          placeholder="Selectionner l'assureur concerné"
+          #assureurIn
+        >
+          <mat-option
+            *ngFor="let x of dataInsurer;"
+            value="{{x['id']}}"
+          >{{x.short_name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select
+          value={{typeTransaction}}
+          #selectType
+          placeholder="Type de transactions"
+          (valueChange)="setTitle()"
+        >
+          <mat-option value="1">Borderaux</mat-option>
+          <mat-option value="2">Commissions</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date de la transaction</mat-label>
+        <input
+          matInput
+          readonly
+          [value]="startDay"
+          [matDatepicker]="matDatePickerDebut"
+          #dateDebutIn
+        >
+        <mat-datepicker-toggle
+          [for]="matDatePickerDebut"
+          matSuffix
+        ></mat-datepicker-toggle>
+        <mat-datepicker #matDatePickerDebut></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="basic-infos-box">
+      <div>
+        <span>Commisions calculées : </span>
+        <span class="commission-sum">{{commissionValue}} €</span>
+      </div>
+      <div>
+        <span>Lignes considéres : </span>
+        <span class="infos-val">{{considerateLine}}</span>
+      </div>
+      <div>
+        <span>Lignes rejetées : </span>
+        <span class="infos-val">{{numberOfRejectedLine()}}</span>
+      </div>
+      <div>
+        <span>Ligne entête : </span>
+        <span class="infos-val">{{checkIfHasHeader()}}</span>
+      </div>
+    </div>
+    <table
+      mat-table
+      [dataSource]="data"
+    >
+      <ng-container
+        *ngFor="let x of columns; let i = index"
+        [matColumnDef]="x"
+        [sticky]="(x=='#'||x=='VALID')?true:false"
+        [stickyEnd]="(x==columns[columns.length-1])?true:false"
+      >
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <ng-container *ngIf="x=='VALID'">
+            <span [class.pad0]="index==3?true:false">
+              <mat-checkbox
+                #x
+                [checked]="true "
+                (change)="checkAll(x['_checked']);"
+                style="margin: 0 auto"
+                indeterminate="true"
+              ></mat-checkbox>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="x=='HEAD'">
+            <span><button
+                (click)="deleteHead()"
+                mat-icon-button
+              >
+                <i class="material-icons">alert-octagon</i>
+              </button></span>
+          </ng-container>
+          <ng-container *ngIf="x=='#'">
+            <span></span>
+          </ng-container>
+          <ng-container *ngIf="x!='#'&&x!='HEAD'&&x!='VALID'">
+            <mat-select
+              [placeholder]="x+' (Inconnu)'"
+              #selectV
+              (selectionChange)="changeColumns(i, selectV)"
+              [value]="selectedCommission(x)"
+            >
+              <mat-option
+                [value]="i"
+                *ngFor="let x of META_DATA; let i = index"
+              >{{x}}</mat-option>
+            </mat-select>
+          </ng-container>
+        </th>
+        <td
+          mat-cell
+          [class]="changeColumnColor(element, x)  + ' cell-head'"
+          *matCellDef="let element "
+        >
+          <ng-container *ngIf="x=='VALID' ; else isnotvalid ">
+            <span>
+              <mat-checkbox
+                [checked]="element[x] "
+                (change)="check(element); calculCommission() "
+              ></mat-checkbox>
+            </span>
+          </ng-container>
+          <ng-template #isnotvalid>
+            <ng-container *ngIf="x=='HEAD' ; else isdata ">
+              <span>
+                <mat-radio-button
+                  [checked]="element['HEAD']"
+                  (change)="clickForHeader(element)"
+                ></mat-radio-button>
+              </span>
+            </ng-container>
+            <ng-template #isdata>
+              <span>{{element[x]}}</span>
+            </ng-template>
+          </ng-template>
+        </td>
+      </ng-container>
+      <tr
+        mat-header-row
+        style="background: #FCFCFC "
+        *matHeaderRowDef="columns; sticky: true"
+      ></tr>
+      <tr
+        mat-row
+        style="background: #F8F8F8 "
+        *matRowDef="let row; columns: columns; "
+      ></tr>
+    </table>
+  </div>
+</div>

@@ -1,36 +1,48 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { TransactionService } from 'src/app/@services/transaction.service';
 import { MatDialog } from '@angular/material';
-import { TransactionService } from '../../@services/transaction.service';
-
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Transaction } from '../../@models/transaction';
-import { TransactionData } from 'src/app/@models/transactionData';
-import { Insurer } from 'src/app/@models/insurer';
+import { Router } from '@angular/router';
 import { ContentHeaderService } from 'src/app/@services/content-header.service';
 import { CancelDialogComponent } from '../cancel-dialog/cancel-dialog.component';
-
-export interface mails {
-  mail: string;
-  status: number;
-  expiration: string;
-}
-
-export interface numbers {
-  numero: string;
-  status: number;
-  expiration: string;
-}
+import { WarnigDialogComponent } from '../add/add.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-transaction-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  selector: 'app-transaction-update',
+  templateUrl: './transaction-update.component.html',
+  styleUrls: ['./transaction-update.component.scss']
 })
-export class TransactionsAddComponent implements OnInit {
+export class TransactionUpdateComponent implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef, public transaction: TransactionService, private dialog: MatDialog, private activeroute: ActivatedRoute, private router: Router, private contentHeaderService: ContentHeaderService) {
-  }
+  
+  constructor(private cdr: ChangeDetectorRef, public transaction: TransactionService, private dialog: MatDialog, private router: Router, private contentHeaderService: ContentHeaderService) { }
+  action = "update";
+  element = JSON.parse(localStorage.getItem("updateTransac"));
+  data = JSON.parse(this.element["file"]["data_file"]);
+
+  path: any;
+  columns: string[]=JSON.parse(this.element["file"]["columns"]);;
+  dataInsurer: any;
+  commissionValue = 0;
+  _key: string;
+  rejectLine = 0;
+  considerateLine = 0;
+  commissionClass: boolean;
+  HaveHeader: boolean;
+  screen_size: number;
+
+  style1: string;
+  columnsOrigin: string[];
+  index: number;
+  insurer = this.element["insurer"];
+  typeTransaction: number=this.element["transaction_type_id"];
+  reference: string = this.element["reference"];
+  idTransaction: string= this.element["id"];
+  numberOfRejected: number;
+  startDay: Date = this.element["creation_date"];
+  endDay: Date = this.element["last_update"];
+  idInsurer = this.element["insurer_id"];
+
+  columnCommissionIndex = null;
 
   ELEMENT_CLASS = [
     'select',
@@ -45,76 +57,9 @@ export class TransactionsAddComponent implements OnInit {
     'TAUX',
     'ASSUREUR'
   ];
-
-  path: any;
-  columns: string[];
-  data: any;
-  dataInsurer: any;
-  commissionValue = 0;
-  _key: string;
-  rejectLine = 0;
-  considerateLine = 0;
-  commissionClass: boolean;
-  HaveHeader: boolean;
-  screen_size: number;
-
-  style1: string;
-  columnsOrigin: string[];
-  index: number;
-  insurer: string;
-  typeTransaction: number;
-  reference: string;
-  action: string;
-  idTransaction: string;
-  numberOfRejected: number;
-  startDay: Date;
-  endDay: Date;
-
-  idInsurer;
-  columnCommissionIndex = null;
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
   ngOnInit() {
-
-    this.activeroute.data
-      .subscribe((data: { transactionData: TransactionData, insurers: Insurer[] }) => {
-        this.idInsurer = data.transactionData.idInsurer;
-
-        if (!data || !data.transactionData) { return; }
-        this.data = data.transactionData.data;
-        this.path = data.transactionData.path;
-        this.insurer = data.transactionData.insurer;
-        this.idInsurer = data.transactionData.idInsurer;
-        this.reference = data.transactionData.reference;
-        this.typeTransaction = data.transactionData.typeTransaction;
-        this.columns = data.transactionData.columns;
-        this.columnsOrigin = data.transactionData.columnsOrigin;
-        this.commissionValue = data.transactionData.commissionValue;
-        this.idTransaction = data.transactionData.id;
-        this.dataInsurer = data.insurers;
-        this.action = data.transactionData.actionType;
-        this.screen_size = window.outerWidth;
-        this.checkEntete();
-        this.commissionClass = false;
-        this.startDay = data.transactionData.creationDate;
-        this.endDay = data.transactionData.lastUpdate;
-        this.contentHeaderService.contentHeader$.next({
-          showTitle: true,
-          title: this.getTtitle(),
-          endDateFilter: undefined,
-          startDateFilter: undefined,
-          hideHeader: false,
-          showDateFilters: false
-        });
-      });
-
-    this.commissionClass = this.action == 'update';
-    console.log(this.data);
-
-    console.log(this.idInsurer)
   }
+
   setTitle() {
     this.contentHeaderService.contentHeader$.next({
       showTitle: true,
@@ -211,8 +156,6 @@ export class TransactionsAddComponent implements OnInit {
   }
 
   selectedCommission(x: string) {
-    console.log(this.data);
-
     return this.commissionClass && x == this.columns[this.columns.length - 1] ? 0 : null;
   }
   getTtitle() {
@@ -321,36 +264,6 @@ export class TransactionsAddComponent implements OnInit {
       }
     });
   }
-}
 
-@Component({
-  selector: 'app-warning-dialog',
-  template: `
-    <div class="container">
-      <div class="bloc-title">
-          <div>Information</div>
-      </div>
-      <p>Opération impossible, veuillez choisir une colonne de commission</p>
-      <div class="bloc-button">
-          <button mat-button color="primary" mat-dialog-close>OK</button>
-      </div>
-    </div>
-  `,
-  styles: [`
-  .bloc-button {
-      text-align: right;
-  }
-
-  .bloc-title {
-      font-size: 14px;
-      font-weight: 600;
-  }`]
-})
-export class WarnigDialogComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }

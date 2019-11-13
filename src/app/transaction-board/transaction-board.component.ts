@@ -99,17 +99,9 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
   }
   edit(row) {
     this.transactionService.getT(row.id).subscribe(res => {
-      this.storage.set('transit', res);
+      localStorage.setItem('updateTransac', JSON.stringify(row));
       this.storage.set('transit', JSON.stringify(row));
-      const formData = new FormData();
-      formData.append('transactionType', row.id);
-      formData.append('insurer', row.insurer.short_name);
-      formData.append('idInsurer', row.insurer.id);
-
-      // this.transactionService.uploadT(row)   
-      // .subscribe((response) => {
-      //   this.router.navigate(['/transactions', 'add']);
-      // });
+      this.router.navigate(['/transactions', 'update']);
       console.log(row);
     });
   }

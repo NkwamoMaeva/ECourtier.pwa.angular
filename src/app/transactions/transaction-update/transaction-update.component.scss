@@ -1,0 +1,249 @@
+.main-container {
+    font-family: Poppins;
+    font-size: 14px !important;
+    display: grid;
+    min-height: 100%;
+    height: 100% !important;
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: 64px 1fr;
+  }
+  
+  .btn-1 {
+    height: 32px;
+    margin-top: 16px;
+  }
+  
+  .main-content {
+    grid-column: 1/4;
+    height: 100%;
+    overflow: scroll;
+    box-sizing: border-box;
+    padding: 0 !important;
+    background: #F8F8F8;
+  }
+  
+  .container {
+    width: 100%;
+    overflow: scroll;
+    height: calc(100vh - 145px);
+  }
+  
+  td,
+  .select {
+    background: #f8f8f8;
+  }
+  
+  .unselect {
+    background: #d9d9d9;
+    /* background: red */
+  }
+  
+  .yellow {
+    background: #fdffd1;
+  }
+  
+  .main-content-header {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 0px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: #FCFCFC !important;
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-top: 14px;
+    margin-right: 0px;
+  }
+  
+  .basic-action-box {
+    padding: 16px 24px;
+    padding-bottom: 12px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 120px 1fr 150px 150px;
+    background: #FCFCFC !important;
+    grid-gap: 8px;
+    box-sizing: border-box;
+  }
+  
+  .commission-sum {
+    font-size: 16px;
+    font-weight: 400;
+    color: #B5D3AF
+  }
+  
+  .basic-action-box>* {
+    box-sizing: border-box;
+    margin-right: 16px;
+  }
+  
+  .basic-action-box>div:last-child {
+    margin-right: 0px;
+  }
+  
+  .basic-infos-box>* {
+    display: inline;
+  }
+  
+  .infos-val {
+    font-size: 12px;
+    color: grey;
+    font-style: italic;
+  }
+  
+  .basic-infos-box {
+    margin: 16px 32px 16px 16px;
+    display: grid;
+    font-size: 13px;
+    grid-template-columns: auto auto auto auto
+  }
+  
+  .mat-icon {
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  
+  /* tr {
+     display: grid;
+     height: auto !important;
+     grid-template-columns: 1.3fr .5fr .8fr 54px;
+  } */
+  
+  h2 {
+    font-size: 18px !important;
+    color: #f15c3a;
+    //color: #fdffd1
+  }
+  
+  .mat-form-field {
+    margin-top: 12px;
+  }
+  
+  .mat-form-field-wrapper {
+    margin: auto 20px !important;
+    box-sizing: border-box;
+  }
+  
+  tr.mat-header-row {
+    height: 32px !important;
+  }
+  
+  th {
+    background: #EEEEEE;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  td:nth-child(1),
+  td:nth-child(2),
+  td:nth-child(3) {
+    background: #EEEEEE
+  }
+  
+  .cell-head {
+    padding-top: 6px;
+    box-sizing: border-box;
+  }
+  
+  .mat-checkbox,
+  .mat-checkbox-layout {
+    width: 17px !important;
+    margin-bottom: 2px;
+    display: block;
+  }
+  
+  .mat-radio-button {
+    display: inline-block;
+    width: 20px !important;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+  }
+  
+  .mat-select {
+    display: inline-block;
+    width: calc(100% - 20px) !important;
+    outline: 0;
+    padding-left: 10px;
+  }
+  
+  td>span,
+  th>span {
+    padding-left: 8px;
+    text-align: left;
+    display: inline !important;
+    white-space: nowrap;
+  }
+  
+  .container {
+    height: calc(100% - 161px) !important;
+  }
+  
+  .main-content {
+    height: calc(100vh - 187px) !important;
+  }
+  
+  #maTable {
+    width: 100%;
+    height: 100% !important;
+    overflow-y: scroll !important;
+  }
+  
+  th:nth-child(3)>span {
+    padding-left: 0px !important;
+    text-align: left;
+    display: inline !important;
+    white-space: nowrap;
+  }
+  
+  td:nth-child(1)>span,
+  td:nth-child(2)>span,
+  td:nth-child(3)>span,
+  th:nth-child(1)>span {
+    padding: 0px 4px !important;
+    text-align: center;
+    display: block !important;
+  }
+  
+  th:nth-child(1)>span,
+  th:nth-child(2)>span {
+    font-size: 14px
+  }
+  
+  td:nth-child(2),
+  td:nth-child(1),
+  td:nth-child(3),
+  th:nth-child(1),
+  th:nth-child(2),
+  th:nth-child(3) {
+    min-width: 0px;
+    padding-right: 1px;
+  }
+  
+  td,
+  th {
+    border-right: .1px solid #CBCBCB;
+    border-bottom: .1px solid #CBCBCB;
+    min-width: 110px;
+    padding-right: 8px;
+  }
+  
+  td:last-child,
+  th:last-child {
+    border-right: none;
+    border-left: .1px solid #CBCBCB;
+  }
+  
+  span {
+    vertical-align: middle !important;
+  }
+  
+  td:nth-last-child(2),
+  th:nth-last-child(2) {
+    border-right: none;
+  }
+  

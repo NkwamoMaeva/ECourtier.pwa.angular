@@ -77,10 +77,7 @@ export class InsurerConfirmationDialogComponent implements OnInit {
     console.log(this.transactions)
     this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-        return;
-    }
+    
     let id = localStorage.getItem('idDeleteInsurer')
     let ids=[]
     let trans = [];

@@ -38,7 +38,7 @@ import { PwaService } from './@services/pwa.service';
 import { InsurerService } from './@services/insurer.service';
 import { CancelDialogComponent } from './transactions/cancel-dialog/cancel-dialog.component';
 import { SettingsComponent } from './settings/settings.component';
-
+import { TransactionUpdateComponent } from './transactions/transaction-update/transaction-update.component';
 
 @NgModule({
    declarations: [
@@ -62,7 +62,9 @@ import { SettingsComponent } from './settings/settings.component';
       InsurerConfirmationDialogComponent,
       InsurerUpdateDialogComponent,
       TransactionConfirmationDialogComponent,
-      SettingsComponent
+      SettingsComponent,
+      TransactionUpdateComponent
+      
    ],
    imports: [
       ServiceWorkerModule.register('ngsw-worker.js'),

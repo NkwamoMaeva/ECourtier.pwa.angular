@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'ecourtier.pwa.angular/src/app/@models/user';
-import { Transaction } from 'ecourtier.pwa.angular/src/app/@models/transaction';
+import { User } from 'src/app/@models/user';
+import { Transaction } from 'src/app/@models/transaction';
 import { FormGroup } from '@angular/forms';
-import { AuthService } from 'ecourtier.pwa.angular/src/app/@services/auth.service';
+import { AuthService } from 'src/app/@services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { TransactionService } from 'ecourtier.pwa.angular/src/app/@services/transaction.service';
+import { TransactionService } from 'src/app/@services/transaction.service';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({

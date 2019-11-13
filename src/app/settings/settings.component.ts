@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TransactionService } from 'ecourtier.pwa.angular/src/app/@services/transaction.service';
+import { TransactionService } from 'src/app/@services/transaction.service';
 import { ToastService } from '../@services/toast.service';
 import { StorageService } from '../@services/storage.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';

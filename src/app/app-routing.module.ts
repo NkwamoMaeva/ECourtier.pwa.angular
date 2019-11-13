@@ -1,3 +1,4 @@
+import { TransactionUpdateComponent } from './transactions/transaction-update/transaction-update.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -54,6 +55,10 @@ const routes: Routes = [
               transactionData: TransactionAddResolverService,
               insurers: InsurerResolverService,
             }
+          },
+          {
+            path: 'update',
+            component: TransactionUpdateComponent
           },
         ]
 

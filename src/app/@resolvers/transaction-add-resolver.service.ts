@@ -16,13 +16,16 @@ import { TransactionData } from '../@models/transactionData';
 })
 export class TransactionAddResolverService implements Resolve<TransactionData> {
     transactionService: any;
-
+    
     constructor(private storage: StorageService, private router: Router) {
 
     }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): TransactionData | never {
         const action = route.params.data;
         const transitData = this.storage.getObject('transit') as any;
+        const element = JSON.parse(localStorage.getItem("updateTransac"));
+        const data = JSON.parse(element["file"]["data_file"]);
+        const columns = JSON.parse(element["file"]["columns"]);
         const transactionData = new TransactionData();
         transactionData.actionType = action;
         if (transitData != null) {
@@ -38,20 +41,23 @@ export class TransactionAddResolverService implements Resolve<TransactionData> {
                 transactionData.columns = this.getColumns(transactionData.data);
                 transactionData.columnsOrigin = this.getColumns(transactionData.data);
                 transactionData.commissionValue = 0;
-            } else if (action == 'update') {
-                const newDataFile = JSON.parse(transitData.data_file.replace(/\|/g, '"'));
-                transactionData.data = newDataFile;
-                transactionData.path = transitData.path_file;
-                transactionData.insurer = transitData.insurer;
-                transactionData.idInsurer = transitData.idInsurer + '';
-                transactionData.reference = transitData.reference;
-                transactionData.typeTransaction = transitData.idTransaction_type;
+            } 
+            else if (action == 'update') {
+                
+                console.log(element);
+                transactionData.data = data;
+                transactionData.path = element["path_file"];
+                transactionData.insurer = element["insurer"];
+                transactionData.idInsurer = element["insurer_id"];;
+                transactionData.reference = element["reference"];
+                transactionData.typeTransaction = element["transaction_type_id"];
                 transactionData.lastUpdate = new Date();
-                transactionData.creationDate = transitData.creation_date;
-                const newColumns = JSON.parse(transitData.columns.replace(/\|/g, '"'));
-                transactionData.columns = newColumns;
-                transactionData.columnsOrigin = this.getColumns(transactionData.data);
-                transactionData.commissionValue = transitData.amount;
+                transactionData.creationDate = element["creation_date"];
+                transactionData.columns = columns;
+                transactionData.columnsOrigin = columns;
+                transactionData.commissionValue = element["amount"];
+
+                
             } else {
                 this.router.navigate(['/not-found'], { queryParams: { returnUrl: state.url } });
             }
