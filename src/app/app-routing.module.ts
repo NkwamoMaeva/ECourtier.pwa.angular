@@ -58,7 +58,11 @@ const routes: Routes = [
           },
           {
             path: 'update',
-            component: TransactionUpdateComponent
+            component: TransactionsAddComponent,
+            resolve: {
+              transactionData: TransactionAddResolverService,
+              insurers: InsurerResolverService,
+            }
           },
         ]
 

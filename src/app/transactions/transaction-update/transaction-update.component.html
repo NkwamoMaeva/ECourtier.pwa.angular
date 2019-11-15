@@ -33,7 +33,7 @@
       fxLayoutGap.gt-xs="12px"
       fxLayoutGap="8px"
     >
-      <h2 style="margin-right: 0px !important;"># {{reference}}</h2>
+      <h2 style="margin-right: 0px !important;"># </h2>
       <mat-form-field fxFlex>
         <mat-select
           value={{idInsurer}}
@@ -48,7 +48,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select
-          value={{typeTransaction}}
+          [(ngModel)]="typeTransaction"
           #selectType
           placeholder="Type de transactions"
           (valueChange)="setTitle()"
@@ -62,7 +62,7 @@
         <input
           matInput
           readonly
-          [value]="startDay"
+          [(ngModel)]="startDay"
           [matDatepicker]="matDatePickerDebut"
           #dateDebutIn
         >

@@ -47,10 +47,19 @@ export class TransactionService extends DataService {
             data: transaction
         });
     }
+    t ={ "idInsurer": 6,
+    "idTransaction_type": 1,
+    "reference": "2710665",
+    "amount": 3539,
+    "last_update": "2019-11-14T12:13:54.347Z",
+    "creation_date": "2019-11-11T20:12:50.509Z",
+    "idUser": 1,
+    "path_file": "data/files/undefined/2_1573601708103.xlsx",
+    "eltToUpdate": "dues",
+    "valueToUpdate": 3539}
+
     updateT(id: string, transaction) {
-        return this.put('transaction/update/' + id, {
-            data: transaction
-        });
+        return this.http.put(this._baseUrl + 'transaction/update/' + id, transaction);
     }
     deleteT(ids) {
         return this.post('transaction/delete', {

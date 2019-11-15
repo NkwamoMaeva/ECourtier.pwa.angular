@@ -43,10 +43,8 @@ export class TransactionAddResolverService implements Resolve<TransactionData> {
                 transactionData.commissionValue = 0;
             } 
             else if (action == 'update') {
-                
-                console.log(element);
                 transactionData.data = data;
-                transactionData.path = element["path_file"];
+                transactionData.path = element["file"]["path_file"];
                 transactionData.insurer = element["insurer"];
                 transactionData.idInsurer = element["insurer_id"];;
                 transactionData.reference = element["reference"];

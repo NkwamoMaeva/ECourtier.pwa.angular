@@ -25,7 +25,7 @@ export class InsurerService extends DataService {
         // return this.post('insurer', formData);
     }
     update(id: string, insurer: Insurer) {
-        return this.post('insurer/' + id, insurer);
+        return this.put('insurer/' + id, insurer);
     }
   deleteA(ids) {
     return this.post('insurer/delete', {

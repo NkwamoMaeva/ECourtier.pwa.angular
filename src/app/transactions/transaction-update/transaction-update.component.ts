@@ -232,6 +232,7 @@ export class TransactionUpdateComponent implements OnInit {
         });
       } else if (this.action === 'update') {
         this.transaction.updateT(this.idTransaction, t).subscribe((res: any) => {
+          
           this.router.navigate(['/transactions']);
         });
       }

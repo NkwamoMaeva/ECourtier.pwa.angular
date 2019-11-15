@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDatepickerInputEvent } from '@angular/material';
 import { TransactionService } from '../../@services/transaction.service';
 
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -62,6 +62,7 @@ export class TransactionsAddComponent implements OnInit {
   columnsOrigin: string[];
   index: number;
   insurer: string;
+  
   typeTransaction: number;
   reference: string;
   action: string;
@@ -96,6 +97,9 @@ export class TransactionsAddComponent implements OnInit {
         this.dataInsurer = data.insurers;
         this.action = data.transactionData.actionType;
         this.screen_size = window.outerWidth;
+        this.selectedT=this.typeTransaction.toString();
+        this.selectedA = data.transactionData.idInsurer.toString();
+        this.selectedD =  data.transactionData.creationDate.toString();
         this.checkEntete();
         this.commissionClass = false;
         this.startDay = data.transactionData.creationDate;
@@ -111,10 +115,11 @@ export class TransactionsAddComponent implements OnInit {
       });
 
     this.commissionClass = this.action == 'update';
-    console.log(this.data);
-
-    console.log(this.idInsurer)
   }
+
+  selectedT: string ;
+  selectedA: string ;
+  selectedD: string ;
   setTitle() {
     this.contentHeaderService.contentHeader$.next({
       showTitle: true,
@@ -211,7 +216,7 @@ export class TransactionsAddComponent implements OnInit {
   }
 
   selectedCommission(x: string) {
-    console.log(this.data);
+      
 
     return this.commissionClass && x == this.columns[this.columns.length - 1] ? 0 : null;
   }
@@ -260,39 +265,47 @@ export class TransactionsAddComponent implements OnInit {
       this.dataInsurer.forEach(element => {
         if (element.id === this.idInsurer) {
           if (this.typeTransaction === 1) {
-            eltToUpdate = 'regles';
+            eltToUpdate = "regles";
           } else {
-            eltToUpdate = 'dues';
+            eltToUpdate = "dues";
           }
           valueToUpdate = element[eltToUpdate] + this.commissionValue;
         }
       });
 
       const t = {
-        idInsurer: this.idInsurer,
-        idTransaction_type: this.typeTransaction,
-        reference: this.reference,
-        amount: this.commissionValue,
-        last_update: this.endDay,
-        creation_date: this.startDay,
-        idUser: user.id,
-        path_file: this.path,
-        data_file: JSON.stringify(this.data),
-        eltToUpdate,
-        valueToUpdate,
-        columns: JSON.stringify(this.columns)
+        "idInsurer": parseInt(this.selectedA),
+        "idTransaction_type":parseInt(this.selectedT),
+        "reference": this.reference,
+        "amount": this.commissionValue,
+        "last_update": this.endDay,
+        "creation_date": Date.parse(this.selectedD),
+        "idUser": user.id,
+        "path_file": this.path,
+        "data_file": JSON.stringify(this.data),
+        "columns": JSON.stringify(this.columns)
       };
+      console.log(t);
+
       console.log('user  identify is' + user.id);
       if (this.action === 'add') {
         this.transaction.addT(t).subscribe((res: any) => {
           this.router.navigate(['/transactions']);
         });
       } else if (this.action === 'update') {
+            
         this.transaction.updateT(this.idTransaction, t).subscribe((res: any) => {
+          console.log(res)
           this.router.navigate(['/transactions']);
         });
       }
     }
+  }
+
+  events: string[] = [];
+  addEvent(event: MatDatepickerInputEvent<Date>) {
+    this.events.push(`${event.value}`);
+    this.selectedD = this.events[this.events.length - 1];
   }
 
   calculCommission() {

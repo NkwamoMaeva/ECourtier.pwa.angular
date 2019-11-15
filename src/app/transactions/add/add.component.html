@@ -36,7 +36,7 @@
       <h2 style="margin-right: 0px !important;"># {{reference}}</h2>
       <mat-form-field fxFlex>
         <mat-select
-          value={{idInsurer}}
+          [(value)]="selectedA"
           placeholder="Selectionner l'assureur concerné"
           #assureurIn
         >
@@ -45,10 +45,12 @@
             value="{{x['id']}}"
           >{{x.short_name}}</mat-option>
         </mat-select>
+        
       </mat-form-field>
+      <p>You selected: {{selectedA}}</p>
       <mat-form-field>
         <mat-select
-          value={{typeTransaction}}
+          [(value)]="selectedT"
           #selectType
           placeholder="Type de transactions"
           (valueChange)="setTitle()"
@@ -57,13 +59,14 @@
           <mat-option value="2">Commissions</mat-option>
         </mat-select>
       </mat-form-field>
+      <p>You selected: {{selectedT}}</p>
+
       <mat-form-field>
         <mat-label>Date de la transaction</mat-label>
         <input
           matInput
-          readonly
-          [value]="startDay"
           [matDatepicker]="matDatePickerDebut"
+          (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)"
           #dateDebutIn
         >
         <mat-datepicker-toggle
@@ -72,6 +75,9 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #matDatePickerDebut></mat-datepicker>
       </mat-form-field>
+      <div class="example-events">
+        <div *ngFor="let e of events">{{e}}</div>
+      </div>
     </div>
     <div class="basic-infos-box">
       <div>
