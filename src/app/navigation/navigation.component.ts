@@ -69,7 +69,12 @@ export class NavigationComponent implements OnDestroy, OnInit {
     text: 'Assureurs',
     link: '/insurers',
     icon: 'business'
-  }];
+  }, {
+    text: 'Utilisateurs',
+    link: '/users',
+    icon: 'account_circle'
+  },
+  ];
   sidenavChanged = false;
 
   private _mobileQueryListener: () => void;

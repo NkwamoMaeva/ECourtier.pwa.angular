@@ -13,14 +13,14 @@ import { WarnigDialogComponent } from '../add/add.component';
 })
 export class TransactionUpdateComponent implements OnInit {
 
-  
+
   constructor(private cdr: ChangeDetectorRef, public transaction: TransactionService, private dialog: MatDialog, private router: Router, private contentHeaderService: ContentHeaderService) { }
-  action = "update";
-  element = JSON.parse(localStorage.getItem("updateTransac"));
-  data = JSON.parse(this.element["file"]["data_file"]);
+  action = 'update';
+  element = JSON.parse(localStorage.getItem('updateTransac'));
+  data = JSON.parse(this.element.file.data_file);
 
   path: any;
-  columns: string[]=JSON.parse(this.element["file"]["columns"]);;
+  columns: string[] = JSON.parse(this.element.file.columns);
   dataInsurer: any;
   commissionValue = 0;
   _key: string;
@@ -33,14 +33,14 @@ export class TransactionUpdateComponent implements OnInit {
   style1: string;
   columnsOrigin: string[];
   index: number;
-  insurer = this.element["insurer"];
-  typeTransaction: number=this.element["transaction_type_id"];
-  reference: string = this.element["reference"];
-  idTransaction: string= this.element["id"];
+  insurer = this.element.insurer;
+  typeTransaction: number = this.element.transaction_type_id;
+  reference: string = this.element.reference;
+  idTransaction: string = this.element.id;
   numberOfRejected: number;
-  startDay: Date = this.element["creation_date"];
-  endDay: Date = this.element["last_update"];
-  idInsurer = this.element["insurer_id"];
+  startDay: Date = this.element.creation_date;
+  endDay: Date = this.element.last_update;
+  idInsurer = this.element.insurer_id;
 
   columnCommissionIndex = null;
 

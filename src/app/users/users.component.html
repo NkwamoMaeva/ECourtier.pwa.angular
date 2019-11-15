@@ -1,0 +1,159 @@
+<div class="mat-elevation-z2">
+  <div class="w-100 h-100" fxLayout="column">
+    <mat-toolbar>
+      <span [fxFlex] = "isSearch ? '0' : '100%'"></span>
+      <mat-form-field
+        [fxFlex] = "isSearch ? '100' : '0'"
+        class="search-text"
+        color="primary"
+        floatPlaceholder="never"
+      >
+        <input
+          type="text"
+          matInput
+          (keyup) = "applyFilter($event.target.value)"
+        >
+      </mat-form-field>
+        <button
+          mat-icon-button
+          (click)="isSearch = !isSearch"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="beforeMenu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu
+          #beforeMenu = "matMenu"
+          xPosition="before"
+        >
+          <button
+            mat-menu-item
+            (click)="refresh()"
+          >
+            <mat-icon>refresh</mat-icon>Actualiser
+          </button>
+
+          <button
+            mat-menu-item
+          >
+            <mat-icon style="color:brown">delete</mat-icon>Supprimer
+          </button>
+        </mat-menu>
+    </mat-toolbar>
+    <div class="table-wrapper"
+      [style.height] = "'100%'"
+    >
+      <mat-table
+        matSort
+        class = "w-100"
+        [dataSource]="dataSource"
+      >
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && !isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
+
+            </mat-checkbox>
+          </mat-header-cell>
+
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(element) : null"
+                          [aria-label]="checkboxLabel(element)"
+
+            ></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!--Nom Column-->
+        <ng-container matColumnDef="displayed_name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+          <mat-cell *matCellDef="let element"
+          >
+            <div
+              fxLayout="row"
+              fxLayoutAlign="start center"
+              fxLayoutGap = "8px"
+            >
+              <img
+                *ngIf="element.image_path == null || element.image_path === undefined"
+                class="avatar"
+                src="../../assets/User_96px.png"
+                alt=""
+              >
+              <img
+                *ngIf="element.image_path !== null"
+                class="avatar"
+                [src]="'http://localhost:9001/'+element.image_path"
+                alt=""
+              >
+              <span>{{element.displayed_name}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <!-- idCompany column-->
+        <ng-container matColumnDef="company">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.idCompany}}</mat-cell>
+        </ng-container>
+
+        <!-- registration_date column-->
+        <ng-container matColumnDef="registration_date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Date d'enregistrement</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{convertDate(element.registration_date)}}</mat-cell>
+        </ng-container>
+
+        <!-- More action column-->
+        <ng-container matColumnDef="more-actions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="tableMenu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu
+              #tableMenu = "matMenu"
+              xPosition="before"
+            >
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>Modifier
+              </button>
+              <button mat-menu-item>
+                <mat-icon style="color:brown">delete</mat-icon>Supprimer
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+        <mat-row
+          matRipple
+          *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row)"
+        ></mat-row>
+      </mat-table>
+    </div>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      *ngIf="!!dataSource"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+  <button
+    mat-fab
+    color="primary"
+    class="add-btn"
+  >
+    <i class="material-icons">add</i>
+  </button>
+</div>

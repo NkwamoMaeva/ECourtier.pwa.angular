@@ -1,9 +1,19 @@
-import { TransactionConfirmationDialogComponent } from './../transactions/transaction-confirmation-dialog/transaction-confirmation-dialog.component';
+import {
+  TransactionConfirmationDialogComponent
+} from '../transactions/transaction-confirmation-dialog/transaction-confirmation-dialog.component';
 import { transition } from '@angular/animations';
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { TransactionService } from '../@services/transaction.service';
 import { Transaction } from '../@models/transaction';
-import { MatTableDataSource, MatPaginator, MatSort,MatDialog, MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
+import {
+  MatTableDataSource,
+  MatPaginator,
+  MatSort,
+  MatDialog,
+  MatChipInputEvent,
+  MatAutocompleteSelectedEvent,
+  MatAutocomplete
+} from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { StorageService } from '../@services/storage.service';
@@ -40,7 +50,7 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Transaction>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('transacInput',{ static: true }) transacInput: ElementRef;
+  @ViewChild('transacInput', { static: true }) transacInput: ElementRef;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   displayedColumns: string[];
@@ -64,8 +74,8 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router, private storage: StorageService, private transactionService: TransactionService,private dialog: MatDialog,) {
 
-    
-   }
+
+  }
 
   ngOnInit() {
     // this.transactions.forEach(function(element) {
@@ -76,16 +86,16 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
     } else {
       this.displayedColumns = ['reference', 'type', 'assureur', 'montant', 'date', 'genre'];
     }
-      this.dataSource = new MatTableDataSource(this.filterTransaction(this.transacs,this.transactions));
+    this.dataSource = new MatTableDataSource(this.filterTransaction(this.transacs,this.transactions));
 
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
- 
+
   transacs: string = localStorage.getItem("filterTransac");
- 
+
 
 
   refresh() {
@@ -132,7 +142,7 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
       return transaction;
     }
     else{
-      
+
       for(let i=0; i<transaction.length;i++){
         if(transaction[i]['insurer_id'] == null){
         }
@@ -142,9 +152,9 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
 
       };
 
-    
-    return filter;
-  }
+
+      return filter;
+    }
   }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -174,8 +184,8 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
   openDialog(id){
     this.dialog.open(TransactionConfirmationDialogComponent);
     localStorage.setItem('idDeleteTransaction',id);
- }
+  }
 
- 
+
 
 }
