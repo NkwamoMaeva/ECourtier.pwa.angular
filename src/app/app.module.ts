@@ -1,4 +1,6 @@
-import { TransactionConfirmationDialogComponent } from './transactions/transaction-confirmation-dialog/transaction-confirmation-dialog.component';
+import {
+  TransactionConfirmationDialogComponent
+} from './transactions/transaction-confirmation-dialog/transaction-confirmation-dialog.component';
 import { InsurerUpdateDialogComponent } from './insurer/insurer-update/insurer-update-dialog.component';
 
 import { InsurerConfirmationDialogComponent } from './insurer/insurer-confirmation-dialog/insurer-confirmation-dialog.component';
@@ -39,6 +41,7 @@ import { InsurerService } from './@services/insurer.service';
 import { CancelDialogComponent } from './transactions/cancel-dialog/cancel-dialog.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TransactionUpdateComponent } from './transactions/transaction-update/transaction-update.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
    declarations: [
@@ -63,8 +66,8 @@ import { TransactionUpdateComponent } from './transactions/transaction-update/tr
       InsurerUpdateDialogComponent,
       TransactionConfirmationDialogComponent,
       SettingsComponent,
-      TransactionUpdateComponent
-      
+      TransactionUpdateComponent,
+      UsersComponent
    ],
    imports: [
       ServiceWorkerModule.register('ngsw-worker.js'),

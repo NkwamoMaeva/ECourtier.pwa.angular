@@ -15,6 +15,8 @@ import { TransactionGuard } from './@guards/transaction.guard';
 import { TransactionsUploadComponent, TransactionUploadDialogComponent } from './transactions/upload/upload.component';
 import { TransactionsAddComponent } from './transactions/add/add.component';
 import { TransactionAddResolverService } from './@resolvers/transaction-add-resolver.service';
+import {UsersComponent} from './users/users.component';
+import {UserResolverService} from './@resolvers/user-resolver.service';
 
 const routes: Routes = [
   {
@@ -65,6 +67,11 @@ const routes: Routes = [
       },
       // { path: 'add', component: TransactionUploadComponent },
       // { path: 'add/:data', component: TransactionUploadComponent },
+      {
+        path: 'users',
+        component: UsersComponent,
+        resolve: { insurers: UserResolverService}
+      },
       {
         path: 'insurers', component: InsurerComponent, resolve: {
           insurers: InsurerResolverService

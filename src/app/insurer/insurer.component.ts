@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AddInsurerDialogComponent } from './insurer-add/insurer-add-dialog.component';
 import { ContentHeaderService } from '../@services/content-header.service';
 import { ContentHeader } from '../@models/contentHeader';
-import {InsurerService} from "../@services/insurer.service";
+import {InsurerService} from '../@services/insurer.service';
 
 @Component({
   selector: 'app-insurer',
