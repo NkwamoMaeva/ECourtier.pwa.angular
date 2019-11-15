@@ -1,5 +1,8 @@
 <div class="mat-elevation-z2">
-  <div class="w-100 h-100" fxLayout="column">
+  <div
+    class="w-100 h-100"
+    fxLayout="column"
+  >
     <mat-toolbar>
       <span [fxFlex] = "isSearch ? '0' : '100%'"></span>
       <mat-form-field
@@ -14,61 +17,61 @@
           (keyup) = "applyFilter($event.target.value)"
         >
       </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="isSearch = !isSearch"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="beforeMenu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu
+        #beforeMenu = "matMenu"
+        xPosition="before"
+      >
         <button
-          mat-icon-button
-          (click)="isSearch = !isSearch"
+          mat-menu-item
+          (click)="refresh()"
         >
-          <mat-icon>search</mat-icon>
+          <mat-icon>refresh</mat-icon>Actualiser
         </button>
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="beforeMenu"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu
-          #beforeMenu = "matMenu"
-          xPosition="before"
-        >
-          <button
-            mat-menu-item
-            (click)="refresh()"
-          >
-            <mat-icon>refresh</mat-icon>Actualiser
-          </button>
 
-          <button
-            mat-menu-item
-          >
-            <mat-icon style="color:brown">delete</mat-icon>Supprimer
-          </button>
-        </mat-menu>
+        <button
+          mat-menu-item
+        >
+          <mat-icon style="color:brown">delete</mat-icon>Supprimer
+        </button>
+      </mat-menu>
     </mat-toolbar>
     <div class="table-wrapper"
-      [style.height] = "'100%'"
+         [style.height] = "'100%'"
     >
       <mat-table
+        #table
         matSort
         class = "w-100"
         [dataSource]="dataSource"
       >
         <ng-container matColumnDef="select">
-          <mat-header-cell *matHeaderCellDef>
+          <mat-header-cell *matHeaderCellDef
+          >
             <mat-checkbox
               (change)="$event ? masterToggle() : null"
               [checked]="selection.hasValue() && !isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()"
-              [aria-label]="checkboxLabel()"
             >
-
             </mat-checkbox>
           </mat-header-cell>
 
           <mat-cell *matCellDef="let element">
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(element) : null"
-                          [aria-label]="checkboxLabel(element)"
-
+                          [checked]="selection.isSelected(element)"
+                          [(ngModel)]="element.checked"
             ></mat-checkbox>
           </mat-cell>
         </ng-container>
@@ -103,7 +106,7 @@
         <!-- idCompany column-->
         <ng-container matColumnDef="company">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.idCompany}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{element.company_id}}</mat-cell>
         </ng-container>
 
         <!-- registration_date column-->
@@ -153,6 +156,7 @@
     mat-fab
     color="primary"
     class="add-btn"
+    (click)="addUser()"
   >
     <i class="material-icons">add</i>
   </button>

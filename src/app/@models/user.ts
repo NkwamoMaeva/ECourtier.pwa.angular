@@ -1,5 +1,5 @@
 export class User {
-    id: string;
+    id: number;
     password: string;
     displayed_name;
     registration_date: Date;

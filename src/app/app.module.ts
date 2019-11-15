@@ -67,7 +67,7 @@ import { UsersComponent } from './users/users.component';
       TransactionConfirmationDialogComponent,
       SettingsComponent,
       TransactionUpdateComponent,
-      UsersComponent
+      UsersComponent,
    ],
    imports: [
       ServiceWorkerModule.register('ngsw-worker.js'),

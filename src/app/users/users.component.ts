@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {User} from '../@models/user';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -13,12 +13,15 @@ import {UserService} from '../@services/user.service';
 })
 export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @Input('users') users: User[];
+  @Input('minimal') minimal: boolean;
+  @Input('height') height: string;
   dataSource = new MatTableDataSource<User>();
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   displayedColumns: string[] = ['select', 'displayed_name', 'company', 'registration_date', 'more-actions'];
   isSearch = false;
   selection = new SelectionModel<User>(true, []);
-  users: User[];
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -28,6 +31,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+
     this.contentHeaderService.contentHeader$.next(
       {
         showTitle: true,
@@ -38,18 +42,34 @@ export class UsersComponent implements OnInit, AfterViewInit {
         showDateFilters: false
       }
     );
-    this.route.data
-      .subscribe( (data: { users: User[] }) => {
-        if (!data || !data.users) {
-          console.log('Not data found !');
-          this.users = [
-            { id: '1', password: 'tetsttvd', displayed_name: 'dcdcxc', registration_date: new Date(), image_path: null, idCompany: '1'}
-          ];
-          console.log(this.users);
-          return;
-        }
-        // this.users = data.users;
-        });
+
+    this.userService.getUsers().subscribe(value => {
+      this.users = value;
+      this.dataSource = new MatTableDataSource(this.users);
+      console.log('Values');
+      console.log(value);
+      console.log('this.users');
+      console.log(this.users);
+      },
+      error1 => {
+        console.log(error1);
+      });
+    // this.route.data
+    //   .subscribe( (data: { users: User[] }) => {
+    //     if (!data || !data.users) {
+    //       console.log('Not data found !');
+    //       this.users = [
+    //         { id: 1, password: 'tetsttvd', displayed_name: 'Jules 0', registration_date: new Date(), image_path: null, idCompany: '1'},
+    //         { id: 2, password: 'tetsttvd', displayed_name: 'Jules 1', registration_date: new Date(), image_path: null, idCompany: '1'},
+    //         { id: 3, password: 'tetsttvd', displayed_name: 'Jules 2', registration_date: new Date(), image_path: null, idCompany: '1'},
+    //         { id: 4, password: 'tetsttvd', displayed_name: 'Jules 3', registration_date: new Date(), image_path: null, idCompany: '1'},
+    //         { id: 5, password: 'tetsttvd', displayed_name: 'Jules 4', registration_date: new Date(), image_path: null, idCompany: '1'},
+    //       ];
+    //       console.log(this.users);
+    //       return;
+    //     }
+    //     // this.users = data.users;
+    //     });
     const elt = document.getElementsByClassName('cdk-overlay-pane');
     if (elt && elt.length > 0) {
       elt[0].classList.add('fullscreen');
@@ -57,11 +77,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource(this.users);
+    console.log('ngAfterViewInit');
+    console.log(this.users);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log('dfedeed');
-    console.log(this.users);
   }
   refresh() {
     this.redirectTo([this.router.url]);
@@ -94,12 +113,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
     return str;
   }
   getTitle() {
-    return 'Utilisateur';
+    return 'Utilisateurs';
   }
-  checkboxLabel(row?: User): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  addUser() {
+
   }
 }
