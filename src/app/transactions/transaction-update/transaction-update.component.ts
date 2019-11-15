@@ -216,14 +216,14 @@ export class TransactionUpdateComponent implements OnInit {
         idTransaction_type: this.typeTransaction,
         reference: this.reference,
         amount: this.commissionValue,
-        last_update: this.endDay,
+        last_update: new Date(),
         creation_date: this.startDay,
         idUser: user.id,
         path_file: this.path,
         data_file: JSON.stringify(this.data),
         eltToUpdate,
         valueToUpdate,
-        columns: JSON.stringify(this.columns)
+        columns: this.columns
       };
       console.log('user  identify is' + user.id);
       if (this.action === 'add') {

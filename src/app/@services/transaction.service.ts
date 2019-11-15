@@ -48,7 +48,7 @@ export class TransactionService extends DataService {
         });
     }
     updateT(id: string, transaction) {
-        return this.post('transaction/update/' + id, {
+        return this.put('transaction/update/' + id, {
             data: transaction
         });
     }
