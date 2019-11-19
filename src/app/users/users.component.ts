@@ -5,6 +5,9 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ContentHeaderService} from '../@services/content-header.service';
 import {UserService} from '../@services/user.service';
+import {UserDialogComponent} from './user-dialog/user-dialog.component';
+import {ResponseRequest} from '../@models/responseRequest';
+import {ToastService} from '../@services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -16,10 +19,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
   @Input('users') users: User[];
   @Input('minimal') minimal: boolean;
   @Input('height') height: string;
+  userResult: ResponseRequest<User> = new ResponseRequest<User>();
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  displayedColumns: string[] = ['select', 'displayed_name', 'company', 'registration_date', 'more-actions'];
+  displayedColumns: string[] = ['select', 'displayed_name', 'username', 'company', 'registration_date', 'more-actions'];
   isSearch = false;
   selection = new SelectionModel<User>(true, []);
   constructor(
@@ -27,7 +31,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private contentHeaderService: ContentHeaderService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -43,33 +48,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.userService.getUsers().subscribe(value => {
-      this.users = value;
-      this.dataSource = new MatTableDataSource(this.users);
-      console.log('Values');
-      console.log(value);
-      console.log('this.users');
-      console.log(this.users);
-      },
-      error1 => {
-        console.log(error1);
-      });
-    // this.route.data
-    //   .subscribe( (data: { users: User[] }) => {
-    //     if (!data || !data.users) {
-    //       console.log('Not data found !');
-    //       this.users = [
-    //         { id: 1, password: 'tetsttvd', displayed_name: 'Jules 0', registration_date: new Date(), image_path: null, idCompany: '1'},
-    //         { id: 2, password: 'tetsttvd', displayed_name: 'Jules 1', registration_date: new Date(), image_path: null, idCompany: '1'},
-    //         { id: 3, password: 'tetsttvd', displayed_name: 'Jules 2', registration_date: new Date(), image_path: null, idCompany: '1'},
-    //         { id: 4, password: 'tetsttvd', displayed_name: 'Jules 3', registration_date: new Date(), image_path: null, idCompany: '1'},
-    //         { id: 5, password: 'tetsttvd', displayed_name: 'Jules 4', registration_date: new Date(), image_path: null, idCompany: '1'},
-    //       ];
-    //       console.log(this.users);
-    //       return;
-    //     }
-    //     // this.users = data.users;
-    //     });
+    this.getData();
     const elt = document.getElementsByClassName('cdk-overlay-pane');
     if (elt && elt.length > 0) {
       elt[0].classList.add('fullscreen');
@@ -116,6 +95,67 @@ export class UsersComponent implements OnInit, AfterViewInit {
     return 'Utilisateurs';
   }
   addUser() {
+    const dialogRef = this.dialog.open(UserDialogComponent, {data: null});
+    dialogRef.afterClosed().subscribe(value => {
+      if (value === false) {
+        this.refresh();
+      } else {
+        console.log('Fuck');
+      }
+      console.log(value);
+    });
+  }
 
+  update(row: User) {
+    const dialogRef = this.dialog.open(UserDialogComponent, {
+      data: new User(row)
+    });
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if (value === false) {
+          this.refresh();
+        } else {
+          console.log('Fuck');
+        }
+        console.log(value);
+      }
+    );
+  }
+  showDialog(user: User = null) {
+    dialogRef = null;
+    if (user === null) {
+      dialogRef = this.dialog.open(UserDialogComponent, {data: null});
+    } else {
+      dialogRef = this.dialog.open(UserDialogComponent, {
+        data: new User(user)
+      });
+    }
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if (value === true) {
+          this.refresh();
+        }
+      }
+    );
+  }
+  getData() {
+    this.userService.getUsers().subscribe(
+      value => {
+        this.userResult = value;
+        console.log(value);
+        if (!this.userResult.success) {
+          this.toast.push({
+            text: this.userResult.message,
+            timeout: 800,
+            persit: true
+          });
+          return;
+        }
+        this.users = this.userResult.data;
+        this.dataSource = new MatTableDataSource(this.users);
+      },
+      error1 => {
+        console.log(error1);
+      });
   }
 }

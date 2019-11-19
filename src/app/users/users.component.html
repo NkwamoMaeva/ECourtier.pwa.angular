@@ -78,7 +78,7 @@
 
         <!--Nom Column-->
         <ng-container matColumnDef="displayed_name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nom complet</mat-header-cell>
           <mat-cell *matCellDef="let element"
           >
             <div
@@ -98,7 +98,7 @@
                 [src]="'http://localhost:9001/'+element.image_path"
                 alt=""
               >
-              <span>{{element.displayed_name}}</span>
+              <span>{{element.first_name + ' ' + element.last_name}}</span>
             </div>
           </mat-cell>
         </ng-container>
@@ -113,6 +113,12 @@
         <ng-container matColumnDef="registration_date">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Date d'enregistrement</mat-header-cell>
           <mat-cell *matCellDef="let element">{{convertDate(element.registration_date)}}</mat-cell>
+        </ng-container>
+
+        <!-- user name column-->
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nom d'utilisateur</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
         </ng-container>
 
         <!-- More action column-->
@@ -142,7 +148,7 @@
         <mat-row
           matRipple
           *matRowDef="let row; columns: displayedColumns;"
-          (click)="selection.toggle(row)"
+          (click)="update(row)"
         ></mat-row>
       </mat-table>
     </div>
