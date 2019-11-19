@@ -144,10 +144,11 @@ export class UserDialogComponent implements OnInit {
     return user1.username === user.username &&
       user1.password === user.password &&
       user1.id === user.id &&
-      user1.displayed_name === user.displayed_name &&
+      user1.first_name === user.first_name &&
+      user1.last_name === user.last_name &&
       user1.registration_date === user.registration_date &&
       user1.image_path === user.image_path &&
       user1.company_id === user.company_id &&
-      user1.isAdmin === user.isAdmin;
+      user1.is_admin === user.is_admin;
   }
 }
