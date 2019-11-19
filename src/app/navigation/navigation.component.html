@@ -17,8 +17,11 @@
       class="app-name"
       fxFlex="100%"
     ><img src="assets/Logo_white.png"></h1>
+
+    <span style="font-size: 14px;margin-top: 10px;" *ngIf="user != null && user != undefined && user.username != null">{{user.username}}</span>
     <img
-      src="assets/entreprise.jfif"
+      *ngIf="user.image_path === null"
+      src="../../assets/User_whitepx.png"
       class="default-icon margin-in-toolbar"
     >
     <!-- <span

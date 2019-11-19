@@ -1,10 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {User} from '../@models/user';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ContentHeaderService} from '../@services/content-header.service';
 import {UserService} from '../@services/user.service';
+import {UserDialogComponent} from './user-dialog/user-dialog.component';
+import {ResponseRequest} from '../@models/responseRequest';
+import {ToastService} from '../@services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -13,21 +16,27 @@ import {UserService} from '../@services/user.service';
 })
 export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @Input('users') users: User[];
+  @Input('minimal') minimal: boolean;
+  @Input('height') height: string;
+  userResult: ResponseRequest<User> = new ResponseRequest<User>();
   dataSource = new MatTableDataSource<User>();
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  displayedColumns: string[] = ['select', 'displayed_name', 'company', 'registration_date', 'more-actions'];
+  displayedColumns: string[] = ['select', 'displayed_name', 'username', 'company', 'registration_date', 'more-actions'];
   isSearch = false;
   selection = new SelectionModel<User>(true, []);
-  users: User[];
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private contentHeaderService: ContentHeaderService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
+
     this.contentHeaderService.contentHeader$.next(
       {
         showTitle: true,
@@ -38,18 +47,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
         showDateFilters: false
       }
     );
-    this.route.data
-      .subscribe( (data: { users: User[] }) => {
-        if (!data || !data.users) {
-          console.log('Not data found !');
-          this.users = [
-            { id: '1', password: 'tetsttvd', displayed_name: 'dcdcxc', registration_date: new Date(), image_path: null, idCompany: '1'}
-          ];
-          console.log(this.users);
-          return;
-        }
-        // this.users = data.users;
-        });
+
+    this.getData();
     const elt = document.getElementsByClassName('cdk-overlay-pane');
     if (elt && elt.length > 0) {
       elt[0].classList.add('fullscreen');
@@ -57,11 +56,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource(this.users);
+    console.log('ngAfterViewInit');
+    console.log(this.users);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log('dfedeed');
-    console.log(this.users);
   }
   refresh() {
     this.redirectTo([this.router.url]);
@@ -94,12 +92,70 @@ export class UsersComponent implements OnInit, AfterViewInit {
     return str;
   }
   getTitle() {
-    return 'Utilisateur';
+    return 'Utilisateurs';
   }
-  checkboxLabel(row?: User): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+  addUser() {
+    const dialogRef = this.dialog.open(UserDialogComponent, {data: null});
+    dialogRef.afterClosed().subscribe(value => {
+      if (value === false) {
+        this.refresh();
+      } else {
+        console.log('Fuck');
+      }
+      console.log(value);
+    });
+  }
+
+  update(row: User) {
+    const dialogRef = this.dialog.open(UserDialogComponent, {
+      data: new User(row)
+    });
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if (value === false) {
+          this.refresh();
+        } else {
+          console.log('Fuck');
+        }
+        console.log(value);
+      }
+    );
+  }
+  showDialog(user: User = null) {
+    dialogRef = null;
+    if (user === null) {
+      dialogRef = this.dialog.open(UserDialogComponent, {data: null});
+    } else {
+      dialogRef = this.dialog.open(UserDialogComponent, {
+        data: new User(user)
+      });
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if (value === true) {
+          this.refresh();
+        }
+      }
+    );
+  }
+  getData() {
+    this.userService.getUsers().subscribe(
+      value => {
+        this.userResult = value;
+        console.log(value);
+        if (!this.userResult.success) {
+          this.toast.push({
+            text: this.userResult.message,
+            timeout: 800,
+            persit: true
+          });
+          return;
+        }
+        this.users = this.userResult.data;
+        this.dataSource = new MatTableDataSource(this.users);
+      },
+      error1 => {
+        console.log(error1);
+      });
   }
 }

@@ -18,7 +18,6 @@ export class AddInsurerDialogComponent implements OnInit {
   regles = 0;
   imgURL: any;
   public imagePath;
-
   logoIsLoaded = false;
   file: any;
   constructor(

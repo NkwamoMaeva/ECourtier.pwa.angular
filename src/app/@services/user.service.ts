@@ -6,6 +6,7 @@ import {ToastService} from './toast.service';
 import {LoaderService} from './loader.service';
 import {Observable} from 'rxjs';
 import {User} from '../@models/user';
+import {ResponseRequest} from '../@models/responseRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,12 @@ export class UserService extends DataService {
     protected loaderService: LoaderService) {
     super(http, storage, 'Users', toastService, loaderService);
   }
-  getUsers(): Observable<User[]> {
-    return this.get<User[]>('');
+  // @ts-ignore
+  getUsers(): Observable<ResponseRequest<User>> {
+    return this.get<ResponseRequest<User>>('users');
   }
   add(formData: FormData) {
-    return this.http.post(this._baseUrl + '/add', formData);
+    return this.http.post(this._baseUrl + 'auth/register', formData);
   }
   update(id: string, user: User) {
     return this.post('/' + id, user);

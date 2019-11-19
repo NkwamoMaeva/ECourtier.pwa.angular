@@ -3,14 +3,16 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {User} from '../@models/user';
 import {UserService} from '../@services/user.service';
 import {Observable} from 'rxjs';
+import {UserResult} from "../@models/UserResult";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserResolverService implements Resolve<User[]> {
+export class UserResolverService implements Resolve<UserResult> {
   constructor(protected userService: UserService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> | Promise<User[]> | User[] {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserResult> | Promise<UserResult> | UserResult {
     return this.userService.getUsers();
   }
 }
