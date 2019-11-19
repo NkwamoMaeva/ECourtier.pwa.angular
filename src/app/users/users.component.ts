@@ -121,23 +121,23 @@ export class UsersComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  showDialog(user: User = null) {
-    dialogRef = null;
-    if (user === null) {
-      dialogRef = this.dialog.open(UserDialogComponent, {data: null});
-    } else {
-      dialogRef = this.dialog.open(UserDialogComponent, {
-        data: new User(user)
-      });
-    }
-    dialogRef.afterClosed().subscribe(
-      value => {
-        if (value === true) {
-          this.refresh();
-        }
-      }
-    );
-  }
+  // showDialog(user: User = null) {
+  //   dialogRef = null;
+  //   if (user === null) {
+  //     dialogRef = this.dialog.open(UserDialogComponent, {data: null});
+  //   } else {
+  //     dialogRef = this.dialog.open(UserDialogComponent, {
+  //       data: new User(user)
+  //     });
+  //   }
+  //   dialogRef.afterClosed().subscribe(
+  //     value => {
+  //       if (value === true) {
+  //         this.refresh();
+  //       }
+  //     }
+  //   );
+  // }
   getData() {
     this.userService.getUsers().subscribe(
       value => {
