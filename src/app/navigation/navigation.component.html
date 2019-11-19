@@ -117,7 +117,6 @@
               <input
                 [formControl]="startDateFilter"
                 [matDatepicker]="picker1"
-                (valueChange)="selectByTri('start', $event.value)"
               >
               <mat-datepicker-toggle
                 matSuffix
@@ -128,8 +127,6 @@
               <mat-datepicker
                 #picker1
                 startView="multi-year"
-                (yearSelected)="chosenYearHandler(startDateFilter, $event)"
-                (monthSelected)="chosenMonthHandler(startDateFilter, $event, picker1)"
                 class="datepicker-control"
               ></mat-datepicker>
             </div>
@@ -139,6 +136,7 @@
               class="btn-1"
               *ngIf="showDateFilters"
               (click)="picker2.open()"
+              (close)="refreshByDate()"
             >
               <input
                 [formControl]="endDateFilter"
@@ -154,8 +152,6 @@
               <mat-datepicker
                 #picker2
                 startView="multi-year"
-                (yearSelected)="chosenYearHandler(endDateFilter, $event)"
-                (monthSelected)="chosenMonthHandler(endDateFilter, $event, picker2)"
                 class="datepicker-control"
               ></mat-datepicker>
             </div>

@@ -222,9 +222,9 @@ export class TransactionsAddComponent implements OnInit {
   }
   getTtitle() {
     if (this.action == 'update') {
-      return 'Modifier une transaction de ' + (this.typeTransaction == 1 ? 'commission' : 'bordereau');
+      return 'Modifier une transaction de ' + (this.typeTransaction == 1 ? 'bordereau' : 'commission');
     } else {
-      return 'Ajouter une transaction de ' + (this.typeTransaction == 1 ? 'commission' : 'bordereau');
+      return 'Ajouter une transaction de ' + (this.typeTransaction == 1 ? 'bordereau' : 'commission');
     }
   }
   deleteHead() {
@@ -279,7 +279,7 @@ export class TransactionsAddComponent implements OnInit {
         "reference": this.reference,
         "amount": this.commissionValue,
         "last_update": this.endDay,
-        "creation_date": Date.parse(this.selectedD),
+        "creation_date": this.startDay,
         "idUser": user.id,
         "path_file": this.path,
         "data_file": JSON.stringify(this.data),
@@ -303,9 +303,9 @@ export class TransactionsAddComponent implements OnInit {
   }
 
   events: string[] = [];
-  addEvent(event: MatDatepickerInputEvent<Date>) {
-    this.events.push(`${event.value}`);
-    this.selectedD = this.events[this.events.length - 1];
+
+  addEvent(date) {
+    this.startDay = new Date(date)
   }
 
   calculCommission() {

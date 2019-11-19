@@ -29,40 +29,29 @@ export class TransactionService extends DataService {
         return this.http.post(this._baseUrl + 'upload', formData);
     }
     getsT(): Observable<Transaction[]> {
-        return this.get<Transaction[]>('transaction/get');
+        return this.get<Transaction[]>('transactions/get');
     }
   getsTotal(): Observable<number> {
-    return this.get<number>('transaction/paid');
+    return this.get<number>('transactions/paid');
   }
   getsTotalUnpaid(): Observable<number> {
-    return this.get<number>('transaction/unpaid');
+    return this.get<number>('transactions/unpaid');
   }
 
     getT(id): Observable<Transaction[]> {
-        return this.get('transaction/get/' + id);
+        return this.get('transactions/get/' + id);
     }
 
     addT(transaction) {
-        return this.post('transaction/add', {
+        return this.post('transactions/add', {
             data: transaction
         });
     }
-    t ={ "idInsurer": 6,
-    "idTransaction_type": 1,
-    "reference": "2710665",
-    "amount": 3539,
-    "last_update": "2019-11-14T12:13:54.347Z",
-    "creation_date": "2019-11-11T20:12:50.509Z",
-    "idUser": 1,
-    "path_file": "data/files/undefined/2_1573601708103.xlsx",
-    "eltToUpdate": "dues",
-    "valueToUpdate": 3539}
-
     updateT(id: string, transaction) {
-        return this.http.put(this._baseUrl + 'transaction/update/' + id, transaction);
+        return this.http.put(this._baseUrl + 'transactions/update/' + id, transaction);
     }
     deleteT(ids) {
-        return this.post('transaction/delete', {
+        return this.post('transactions/delete', {
             id: ids
         });
     }
@@ -72,7 +61,7 @@ export class TransactionService extends DataService {
         const newEnd = this.getDateFormat(endDate);
         console.log(newStart);
         console.log(newEnd);
-        return this.get<Transaction[]>('transaction/' + newStart + '/' + newEnd);
+        return this.get<Transaction[]>('transactions/' + newStart + '/' + newEnd);
     }
     getDateFormat(date) {
         let year;

@@ -162,6 +162,12 @@ export class NavigationComponent implements OnDestroy, OnInit {
       height: '500px',
       width:'500px'
     });
- }
+  }
+
+  refreshByDate(){
+    console.log("je sais je sais");
+  }
+
+ 
 }
 

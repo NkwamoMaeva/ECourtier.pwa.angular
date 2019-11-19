@@ -44,8 +44,11 @@ export class InsurerUpdateDialogComponent implements OnInit {
       showDateFilters: false
     });
     this.element = JSON.parse(localStorage.getItem('insurerUpdate'));
+    console.log(this.element)
     this.short_name = this.element['short_name'];
     this.description = this.element['description'];
+    this.imgURL = 'http://localhost:9001/'+this.element['image_path'];
+    console.log(this.imgURL);
   }
 
  
@@ -66,5 +69,27 @@ export class InsurerUpdateDialogComponent implements OnInit {
       this.insurerService.update(this.element['id'],this.element).subscribe(res => {
         this.refresh();
       });
+  }
+
+  setFile(element: { target: { files: any[]; }; }) {
+    this.file = element.target.files[0];
+    this.preview(this.file);
+  }
+
+  preview(files) {
+    let mimeType = files.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    let reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files);
+    reader.onload = (_event) => {
+      this.imgURL = reader.result;
+      this.logoIsLoaded = true;
+    };
+    console.log(this.imagePath);
+
   }
 }

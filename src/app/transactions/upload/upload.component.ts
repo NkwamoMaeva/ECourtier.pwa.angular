@@ -56,6 +56,14 @@ export class TransactionsUploadComponent implements OnInit {
     this.readyToSend = true;
     console.log(this.file);
   }
+  refresh() {
+    this.redirectTo([this.router.url]);
+  }
+  redirectTo(uri) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(uri)
+    );
+  }
   upload(select: string | number, selectType: number) {
     if (typeof select === 'undefined' || select == null) {
       this.toast.push({
@@ -96,7 +104,14 @@ export class TransactionsUploadComponent implements OnInit {
           timeout: 3000
         });
         this.dialogRef.close();
-        this.router.navigate(['/transactions', 'add']);
+        if(this.file.type =='application/pdf'){
+          this.refresh;
+
+        }
+        else{
+          this.router.navigate(['/transactions', 'add']);
+
+        }
       });
       
   }
@@ -150,6 +165,8 @@ export class TransactionsUploadComponent implements OnInit {
       last_update: this.myDate,
       creation_date: this.myDate,
       idUser: user.id,
+      "path_file": this.file.path_file,
+      "data_file": JSON.stringify(this.data),
       eltToUpdate,
       valueToUpdate,
       columns: null
@@ -227,5 +244,16 @@ export class TransactionUploadDialogComponent implements OnInit {
       }
     });
   }
+
+  getColumns(data) {
+    let id;
+    for (const elt of data) {
+        if (elt.HEAD === false && elt.VALID === true) {
+            id = data.indexOf(elt);
+            break;
+        }
+    }
+    return Object.keys(data[id]);
+}
 
 }

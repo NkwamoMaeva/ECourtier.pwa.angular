@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+
+
+
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Insurer } from '../@models/insurer';
@@ -17,18 +20,18 @@ export class InsurerService extends DataService {
     }
 
     getInsurers(): Observable<Insurer[]> {
-        return this.get<Insurer[]>('insurer');
+        return this.get<Insurer[]>('insurers');
     }
 
     add(formData: FormData) {
-      return this.http.post(this._baseUrl + 'insurer/add', formData);
+      return this.http.post(this._baseUrl + 'insurers', formData);
         // return this.post('insurer', formData);
     }
     update(id: string, insurer: Insurer) {
-        return this.put('insurer/' + id, insurer);
+        return this.put('insurers/' + id, insurer);
     }
   deleteA(ids) {
-    return this.post('insurer/delete', {
+    return this.post('insurers/delete', {
       id: ids
     });
   }

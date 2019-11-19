@@ -47,7 +47,6 @@
         </mat-select>
         
       </mat-form-field>
-      <p>You selected: {{selectedA}}</p>
       <mat-form-field>
         <mat-select
           [(value)]="selectedT"
@@ -59,14 +58,13 @@
           <mat-option value="2">Commissions</mat-option>
         </mat-select>
       </mat-form-field>
-      <p>You selected: {{selectedT}}</p>
 
       <mat-form-field>
         <mat-label>Date de la transaction</mat-label>
         <input
           matInput
           [matDatepicker]="matDatePickerDebut"
-          (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)"
+          [(ngModel)]="startDay"
           #dateDebutIn
         >
         <mat-datepicker-toggle
@@ -75,9 +73,6 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #matDatePickerDebut></mat-datepicker>
       </mat-form-field>
-      <div class="example-events">
-        <div *ngFor="let e of events">{{e}}</div>
-      </div>
     </div>
     <div class="basic-infos-box">
       <div>

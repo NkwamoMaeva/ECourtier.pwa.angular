@@ -96,22 +96,25 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
 
   transacs: string = localStorage.getItem("filterTransac");
 
-
-
   refresh() {
     this.redirectTo([this.router.url]);
   }
-
   redirectTo(uri) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(uri)
     );
   }
+
   edit(row) {
     this.transactionService.getT(row.id).subscribe(res => {
       localStorage.setItem('updateTransac', JSON.stringify(row));
       this.storage.set('transit', JSON.stringify(row));
-      this.router.navigate(['/transactions', 'update']);
+      if(row["file"] == null || row["file"] === undefined){
+        this.router.navigate(['/transactions', 'upload']);
+      }
+      else{
+        this.router.navigate(['/transactions', 'update']);
+      }
       console.log(row);
     });
   }
@@ -186,6 +189,8 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
     localStorage.setItem('idDeleteTransaction',id);
   }
 
-
+  dowload(element){
+    window.open('http://localhost:9001/'+element['file']['path_file'], '_blank');
+  }
 
 }
