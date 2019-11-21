@@ -82,8 +82,6 @@ export class AddInsurerDialogComponent implements OnInit {
           });
           this.dialogRef.close('reload');
         }
-        console.log(formData)
-        console.log(this.file)
 
       });
   }

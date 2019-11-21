@@ -94,7 +94,7 @@ export class TransactionsAddComponent implements OnInit {
         this.columnsOrigin = data.transactionData.columnsOrigin;
         this.commissionValue = data.transactionData.commissionValue;
         this.idTransaction = data.transactionData.id;
-        this.dataInsurer = data.insurers;
+        this.dataInsurer = data.insurers["data"];
         this.action = data.transactionData.actionType;
         this.screen_size = window.outerWidth;
         this.selectedT=this.typeTransaction.toString();
@@ -259,7 +259,7 @@ export class TransactionsAddComponent implements OnInit {
     if (this.commissionClass === false) {
       this.dialog.open(WarnigDialogComponent);
     } else {
-      const user = JSON.parse(localStorage.getItem('CONNECTED_USER'));
+      const user = JSON.parse(localStorage.getItem('CONNECTED_USER'))["data"];
       let eltToUpdate;
       let valueToUpdate;
       this.dataInsurer.forEach(element => {
@@ -272,7 +272,6 @@ export class TransactionsAddComponent implements OnInit {
           valueToUpdate = element[eltToUpdate] + this.commissionValue;
         }
       });
-
       const t = {
         "idInsurer": parseInt(this.selectedA),
         "idTransaction_type":parseInt(this.selectedT),
@@ -287,7 +286,7 @@ export class TransactionsAddComponent implements OnInit {
       };
       console.log(t);
 
-      console.log('user  identify is' + user.id);
+      console.log('user  identify is ' + user.id);
       if (this.action === 'add') {
         this.transaction.addT(t).subscribe((res: any) => {
           this.router.navigate(['/transactions']);

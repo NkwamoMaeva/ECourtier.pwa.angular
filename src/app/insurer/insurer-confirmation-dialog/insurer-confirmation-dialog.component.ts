@@ -13,7 +13,13 @@ import { InsurerService } from 'src/app/@services/insurer.service';
 import { TransactionService } from 'src/app/@services/transaction.service';
 import { Transaction } from 'src/app/@models/transaction';
 
-
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-insurer-confirmation-dialog',
@@ -26,9 +32,18 @@ import { Transaction } from 'src/app/@models/transaction';
 export class InsurerConfirmationDialogComponent implements OnInit {
 
   user: User;
+  password;
   transactions: Transaction[];
   submitted = false;
   registerForm: FormGroup;
+  message;
+
+  passwordFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  matcher = new MyErrorStateMatcher();
+
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -38,14 +53,15 @@ export class InsurerConfirmationDialogComponent implements OnInit {
   ) {
     this.user = auth.ConnectedUser;
     
+    
   }
   returnUrl: string;
   selection = new SelectionModel<Insurer>(true, []);
   ngOnInit() {
 
-    console.log(this.auth.ConnectedUser['username']);
     //this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     this.getTransactions();
+    this.user = this.user["data"];
 
   }
   
@@ -68,16 +84,19 @@ export class InsurerConfirmationDialogComponent implements OnInit {
         selectedId.push(elt.id);
       });
     }
-    this.insurerService.deleteA(selectedId).subscribe(res => {
+    const u={
+      ids:selectedId,
+      username:this.user["username"],
+      password:this.password
+    }
+    this.insurerService.deleteA(u).subscribe(res => {
+      
       this.refresh();
     });
   }
 
   delete(checked:boolean){
-    console.log(this.transactions)
-    this.submitted = true;
-
-    
+    this.submitted = true;   
     let id = localStorage.getItem('idDeleteInsurer')
     let ids=[]
     let trans = [];
@@ -92,7 +111,6 @@ export class InsurerConfirmationDialogComponent implements OnInit {
       this.deleteInsureur(ids);
       if(this.transactions !== undefined){
       this.transactions.forEach(function(element){
-        console.log(element)
         if(element['insurer'] == null || element['insurer'] == undefined){
 
         }
@@ -100,9 +118,9 @@ export class InsurerConfirmationDialogComponent implements OnInit {
           trans.push(element.id);
         }
       })
-      
+      console.log(trans);
       this.deleteTransactions(trans);
-      
+      this.refresh();
     }
     }
 
@@ -113,22 +131,30 @@ export class InsurerConfirmationDialogComponent implements OnInit {
     this.router.navigateByUrl('/transactions')
   }
 
-  deleteTransactions(ids: number[] | undefined) {
-    
+  deleteTransactions(ids: number[] | undefined) {   
     const selectedId = ids || [];
     if (selectedId.length === 0) {
       const selected = this.selection.selected;
+
       selected.forEach(elt => {
         selectedId.push(elt.id);
       });
     }
-    this.transactionService.deleteT(selectedId).subscribe(res => {
+    const u={
+      ids:selectedId,
+      username:this.user["username"],
+      password:this.password
+    }
+    console.log(u);
+    this.transactionService.deleteT(u).subscribe(res => {
+      this.dialog.closeAll();
+      this.refresh();
     });
   }
 
   getTransactions(){
     this.transactionService.getsT()
-    .subscribe(transactions => this.transactions = transactions);
+    .subscribe(transactions => this.transactions = transactions["data"]);
   }
 
 

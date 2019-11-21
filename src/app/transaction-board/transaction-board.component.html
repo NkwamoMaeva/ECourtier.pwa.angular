@@ -24,10 +24,10 @@
         (click)="filterType(2)"
       >Toutes les Commissions</button>
     </mat-menu>
-    <mat-chip-list aria-label="Fish selection" *ngIf="transacs != null && transacs!= ''">
-        <mat-chip color="accent" selected>{{transacs}}</mat-chip>
-      </mat-chip-list>
-    
+        <mat-chip *ngIf="transacs != null && transacs!= ''" color="accent" selected>{{transacs}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      
     <span [fxFlex]="isSearch ? '0' : '100%'"></span>
 
     <mat-form-field
@@ -202,8 +202,8 @@
               [class]="'img_genre'"
               matRipple
               style="height: 16px; width: 16px;"
-              *ngIf="element.file !== null && element.file !== undefined" 
-              [src]="data_ilg[getTypeOfFile(element.file.path_file)]"
+              *ngIf="element.files !== null && element.files !== undefined" 
+              [src]="data_ilg[1]"
               (click)="dowload(element)"
             >
           </button>

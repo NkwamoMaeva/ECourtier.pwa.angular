@@ -81,6 +81,7 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
     // this.transactions.forEach(function(element) {
     //   this.allTransac.push(element['insurer']['short_name'])
     // });
+    this.transactions = this.transactions["data"];
     if (this.minimal === false) {
       this.displayedColumns = ['select', 'reference', 'type', 'assureur', 'montant', 'date', 'genre', 'more-actions'];
     } else {
@@ -106,17 +107,12 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
   }
 
   edit(row) {
-    this.transactionService.getT(row.id).subscribe(res => {
       localStorage.setItem('updateTransac', JSON.stringify(row));
       this.storage.set('transit', JSON.stringify(row));
-      if(row["file"] == null || row["file"] === undefined){
-        this.router.navigate(['/transactions', 'upload']);
-      }
-      else{
-        this.router.navigate(['/transactions', 'update']);
-      }
+      this.router.navigate(['/transactions', 'update']);
+      
       console.log(row);
-    });
+    
   }
   filterType(type: number) {
     if (type == 0) {
@@ -190,7 +186,8 @@ export class TransactionBoardComponent implements OnInit, AfterViewInit {
   }
 
   dowload(element){
-    window.open('http://localhost:9001/'+element['file']['path_file'], '_blank');
+    console.log(element)
+    window.open('http://localhost:9001/'+element['files'][0]['path_file'], '_blank');
   }
 
 }

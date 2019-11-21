@@ -36,14 +36,15 @@ export class DashboardComponent implements OnInit {
 
     this.route.data
       .subscribe((data: { lastInsurersPaiements: Insurer[], lastTransactions: Transaction[] }) => {
-        if (!data || !data.lastInsurersPaiements) { return; }
 
-        for (const elt of data.lastInsurersPaiements) {
+        if (!data || !data.lastInsurersPaiements["data"]) { return; }
+
+        for (const elt of data.lastInsurersPaiements["data"]) {
           this.sommeDue += parseInt(elt.dues.toString());
           this.sommeRegle += parseInt(elt.regles.toString());
         }
         this.lastTransactions = data.lastTransactions;
-        this.lastInsurersPaiements = data.lastInsurersPaiements;
+        this.lastInsurersPaiements = data.lastInsurersPaiements["data"];
       });
     this.cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
       map(({ matches }) => this.fillCardData(matches)));
@@ -55,12 +56,13 @@ export class DashboardComponent implements OnInit {
       hideHeader: false,
       showDateFilters: true
     });
+    console.log(this.lastTransactions);
 
   }
 getTotalAmount() {
     let item;
    return   this.transactionservice.getsTotal().subscribe(response => {
-    this.sommeTotal2 = response ;
+    this.sommeTotal2 = response["data"]["amount"];
      item = localStorage.getItem('amount');
      if (item == null){
        localStorage.setItem('amount', this.sommeTotal2.toString());
@@ -74,7 +76,7 @@ getTotalAmount() {
   getTotalUnpaid() {
     let item;
     return this.transactionservice.getsTotalUnpaid().subscribe(response => {
-      this.sommeTotalUnpaid = response ;
+      this.sommeTotalUnpaid = response["data"]["amount"];
       item = localStorage.getItem('unpaid');
       if (item == null){
         localStorage.setItem('unpaid', this.sommeTotalUnpaid.toString());

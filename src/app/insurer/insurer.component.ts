@@ -42,7 +42,7 @@ export class InsurerComponent implements OnInit, AfterViewInit {
     this.route.data
       .subscribe((data: { insurers: Insurer[] }) => {
         if (!data || !data.insurers) { return; }
-        this.insurers = data.insurers;
+        this.insurers = data.insurers["data"];
         this.contentHeaderService.contentHeader$.next({
           showTitle: true,
           title: 'Assureur',

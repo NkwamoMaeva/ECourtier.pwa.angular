@@ -26,16 +26,16 @@ export class TransactionService extends DataService {
     }
 
     uploadT(formData: FormData) {
-        return this.http.post(this._baseUrl + 'upload', formData);
+        return this.http.post(this._baseUrl + 'transactions/files', formData);
     }
     getsT(): Observable<Transaction[]> {
-        return this.get<Transaction[]>('transactions/get');
+        return this.get<Transaction[]>('transactions');
     }
   getsTotal(): Observable<number> {
-    return this.get<number>('transactions/paid');
+    return this.get<number>('amounts/paid');
   }
   getsTotalUnpaid(): Observable<number> {
-    return this.get<number>('transactions/unpaid');
+    return this.get<number>('amounts/unpaid');
   }
 
     getT(id): Observable<Transaction[]> {
@@ -43,17 +43,13 @@ export class TransactionService extends DataService {
     }
 
     addT(transaction) {
-        return this.post('transactions/add', {
-            data: transaction
-        });
+        return this.http.post(this._baseUrl + 'transactions', transaction);
     }
     updateT(id: string, transaction) {
-        return this.http.put(this._baseUrl + 'transactions/update/' + id, transaction);
+        return this.http.put(this._baseUrl + 'transactions/' + id, transaction);
     }
-    deleteT(ids) {
-        return this.post('transactions/delete', {
-            id: ids
-        });
+    deleteT(user) {
+        return this.http.delete(this._baseUrl +'transactions/'+user.ids[0]+'?username='+user.username+'&password='+user.password);
     }
 
     getTransactionByRange(startDate, endDate) {

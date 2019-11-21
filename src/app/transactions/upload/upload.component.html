@@ -53,7 +53,7 @@ max-width: 500px;
       </mat-form-field>
     </div>
 
-    <div>
+    <div *ngIf="!pdfFile" >
       <div>
         <div
         class="uploadfilecontainer"
@@ -153,12 +153,12 @@ max-width: 500px;
       </div>
       </div>
     </div> -->
-    <!-- <div *ngIf="readyToSend && file.type =='application/pdf'">
+    <div *ngIf="readyToSend && pdfFile">
       <mat-form-field>
         <input matInput type="number" [(ngModel)]="commission" placeholder="Entrer la commission" [(ngModel)]="commission" #selectCommission required>
         <mat-error> Commission required!</mat-error>
       </mat-form-field>
-    </div> -->
+    </div>
     <div
       class="btn-properties"
       fxLayout="column"
@@ -177,12 +177,12 @@ max-width: 500px;
       (change)="setFile($event)"
     ></button>
 
-      <!-- <button
-        *ngIf="readyToSend"
+      <button
+        *ngIf="readyToSend && pdfFile"
         mat-raised-button
         style="width: 250px; color:#4B1585; font-size: 13px"
         (click)="add(select.value, selectType.value,commission)"
-      >ENREGISTRER LA TRANSACTION</button> -->
+      >ENREGISTRER LA TRANSACTION</button>
 
       <button
         mat-raised-button

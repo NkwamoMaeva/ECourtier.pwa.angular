@@ -9,6 +9,7 @@ import { DataService } from './data.service';
 import { StorageService } from './storage.service';
 import { ToastService } from './toast.service';
 import { LoaderService } from './loader.service';
+import { ResponseRequest } from '../@models/responseRequest';
 
 @Injectable({
     providedIn: 'root'
@@ -19,20 +20,18 @@ export class InsurerService extends DataService {
         super(http, storage, 'INSURERS', toastService, loaderService);
     }
 
-    getInsurers(): Observable<Insurer[]> {
-        return this.get<Insurer[]>('insurers');
+    getInsurers(): Observable<ResponseRequest<Insurer[]>> {
+        return this.get<ResponseRequest<Insurer[]>>('insurers');
     }
 
     add(formData: FormData) {
       return this.http.post(this._baseUrl + 'insurers', formData);
         // return this.post('insurer', formData);
     }
-    update(id: string, insurer: Insurer) {
-        return this.put('insurers/' + id, insurer);
+    update(id: string, formData: FormData) {
+        return this.http.put(this._baseUrl +'insurers/' + id, formData);
     }
-  deleteA(ids) {
-    return this.post('insurers/delete', {
-      id: ids
-    });
+  deleteA(user) {
+    return this.http.delete(this._baseUrl +'insurers/'+user.ids[0]+'?username='+user.username+'&password='+user.password);
   }
 }

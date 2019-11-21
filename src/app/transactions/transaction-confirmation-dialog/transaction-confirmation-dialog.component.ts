@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/@models/user';
 import { Transaction } from 'src/app/@models/transaction';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/@services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { TransactionService } from 'src/app/@services/transaction.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MyErrorStateMatcher } from 'src/app/insurer/insurer-confirmation-dialog/insurer-confirmation-dialog.component';
 
 @Component({
   selector: 'app-transaction-confirmation-dialog',
@@ -15,7 +16,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class TransactionConfirmationDialogComponent implements OnInit {
 
-  user: User;
+  user;
+  password;
   transactions: Transaction[];
   submitted = false;
   registerForm: FormGroup;
@@ -30,8 +32,14 @@ export class TransactionConfirmationDialogComponent implements OnInit {
   returnUrl: string;
   selection = new SelectionModel<Transaction>(true, []);
 
+  passwordFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  matcher = new MyErrorStateMatcher();
+
   ngOnInit() {
-    console.log(this.auth.ConnectedUser['username']);
+    this.user = this.user["data"];
    
   }
 
@@ -56,7 +64,13 @@ export class TransactionConfirmationDialogComponent implements OnInit {
         selectedId.push(elt.id);
       });
     }
-    this.transactionService.deleteT(selectedId).subscribe(res => {
+    const u={
+      ids:selectedId,
+      username:this.user["username"],
+      password:this.password
+    }
+    console.log(u);
+    this.transactionService.deleteT(u).subscribe(res => {
       this.dialog.closeAll();
       this.refresh();
     });

@@ -197,7 +197,7 @@ export class TransactionUpdateComponent implements OnInit {
     if (this.commissionClass === false) {
       this.dialog.open(WarnigDialogComponent);
     } else {
-      const user = JSON.parse(localStorage.getItem('CONNECTED_USER'));
+      const user = JSON.parse(localStorage.getItem('CONNECTED_USER'))["data"];
       let eltToUpdate;
       let valueToUpdate;
       this.dataInsurer.forEach(element => {
@@ -225,7 +225,7 @@ export class TransactionUpdateComponent implements OnInit {
         valueToUpdate,
         columns: this.columns
       };
-      console.log('user  identify is' + user.id);
+      console.log(t);
       if (this.action === 'add') {
         this.transaction.addT(t).subscribe((res: any) => {
           this.router.navigate(['/transactions']);

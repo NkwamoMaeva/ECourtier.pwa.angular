@@ -29,7 +29,7 @@ const routes: Routes = [
         path: 'dashboard', component: DashboardComponent,
         resolve: {
           lastInsurersPaiements: InsurerResolverService,
-          lastTransactions: LastTransactionsResolverService
+          lastTransactions: TransactionsResolverService
         }
       },
       {

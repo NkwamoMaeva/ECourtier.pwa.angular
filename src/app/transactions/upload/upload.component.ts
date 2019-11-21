@@ -27,6 +27,7 @@ export class TransactionsUploadComponent implements OnInit {
   insurer: any;
   myDate = new Date();
   reference: string;
+  pdfFile = false;
   commission;
   constructor(
     private activeroute: ActivatedRoute,
@@ -40,7 +41,7 @@ export class TransactionsUploadComponent implements OnInit {
     private datePipe: DatePipe) {
   }
   ngOnInit() {
-    this.insurers = this.data.insurers;
+    this.insurers = this.data.insurers["data"];
     this.activeroute.data
       .subscribe((data: { transactionData: TransactionData, insurers: Insurer[] }) => {
         if (!data || !data.transactionData) { return; }
@@ -92,25 +93,22 @@ export class TransactionsUploadComponent implements OnInit {
     formData.append('transactionType', this.type);
     formData.append('insurer', this.insurers[select].designation);
     formData.append('idInsurer', this.insurers[select].id);
-    
+
     this.transaction.uploadT(formData)   
       .subscribe((response) => {
         console.log(response)
         this.fichierTransaction = response;
         this.storage.set('transit', JSON.stringify(this.fichierTransaction));
-        this.toast.push({
-          text: 'Affichage pour traitement',
-          persit: false,
-          timeout: 3000
-        });
-        this.dialogRef.close();
-        if(this.file.type =='application/pdf'){
-          this.refresh;
 
-        }
-        else{
+        if(this.file.type =='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
+          this.dialogRef.close();
           this.router.navigate(['/transactions', 'add']);
 
+        }
+        else{         
+          console.log("gvjjkskvk")
+          this.pdfFile = true;
+          //this.refresh();
         }
       });
       

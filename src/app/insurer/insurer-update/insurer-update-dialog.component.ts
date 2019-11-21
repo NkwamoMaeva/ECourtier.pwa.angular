@@ -66,8 +66,37 @@ export class InsurerUpdateDialogComponent implements OnInit {
   }
 
   updateInsureur() {
-      this.insurerService.update(this.element['id'],this.element).subscribe(res => {
-        this.refresh();
+    const formData = new FormData();
+    if(this.file === undefined || this.file == null){
+      
+    }
+    else{
+      formData.append('image', this.file, this.file.name);
+
+    }
+    formData.append('description', this.description);
+    formData.append('short_name', this.short_name);
+    formData.append('dues', this.element.dues.toString());
+    formData.append('regles', this.element.regles.toString());
+    this.insurerService.update(this.element.id, formData)
+      .subscribe((res: any) => {
+        if (res.error || res.err) {
+          this.toastService.push({
+            persit: false,
+            timeout: 5000,
+            text: res.error || res.err
+          });
+        } else {
+          this.toastService.push({
+            persit: false,
+            timeout: 5000,
+            text: 'Modification effectué'
+          });
+          this.refresh();
+          this.dialogRef.close('reload');
+          
+        }
+
       });
   }
 

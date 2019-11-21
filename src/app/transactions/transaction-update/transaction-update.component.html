@@ -36,7 +36,7 @@
       <h2 style="margin-right: 0px !important;"># </h2>
       <mat-form-field fxFlex>
         <mat-select
-          value={{idInsurer}}
+        [(ngModel)]="idInsurer"
           placeholder="Selectionner l'assureur concerné"
           #assureurIn
         >

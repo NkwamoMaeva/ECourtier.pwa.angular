@@ -23,9 +23,7 @@ export class TransactionAddResolverService implements Resolve<TransactionData> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): TransactionData | never {
         const action = route.params.data;
         const transitData = this.storage.getObject('transit') as any;
-        const element = JSON.parse(localStorage.getItem("updateTransac"));
-        const data = JSON.parse(element["file"]["data_file"]);
-        const columns = JSON.parse(element["file"]["columns"]);
+        
         const transactionData = new TransactionData();
         transactionData.actionType = action;
         if (transitData != null) {
@@ -43,8 +41,12 @@ export class TransactionAddResolverService implements Resolve<TransactionData> {
                 transactionData.commissionValue = 0;
             } 
             else if (action == 'update') {
+                const element = JSON.parse(localStorage.getItem("updateTransac"));
+                const data = JSON.parse(element["files"][0]["data_file"]);
+                const columns = JSON.parse(element["files"][0]["columns"]);
+
                 transactionData.data = data;
-                transactionData.path = element["file"]["path_file"];
+                transactionData.path = element["files"][0]["path_file"];
                 transactionData.insurer = element["insurer"];
                 transactionData.idInsurer = element["insurer_id"];;
                 transactionData.reference = element["reference"];
