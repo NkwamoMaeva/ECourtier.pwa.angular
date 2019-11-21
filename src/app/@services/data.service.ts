@@ -187,10 +187,6 @@ export abstract class DataService {
             catchError(this.errorHandler<T>(`delete`))
         );
     }
-
-
-
-
     private errorHandler<T>(op: string):
         (err: any, caught: Observable<T>) => Observable<T> {
         return (err: Error, caught: Observable<T>): Observable<T> => {

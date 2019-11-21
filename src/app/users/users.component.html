@@ -98,7 +98,12 @@
                 [src]="'http://localhost:9001/'+element.image_path"
                 alt=""
               >
-              <span>{{element.first_name + ' ' + element.last_name}}</span>
+              <span>
+                <mat-chip-list>
+                {{element.first_name + ' ' + element.last_name}}
+                  <mat-chip color="accento" style="font-size: 10px" selected>AD</mat-chip>
+                </mat-chip-list>
+              </span>
             </div>
           </mat-cell>
         </ng-container>

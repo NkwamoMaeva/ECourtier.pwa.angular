@@ -13,6 +13,7 @@
     <button
       mat-icon-button
       mat-dialog-close="true"
+      id="myclose-btn"
     >
       <mat-icon>close</mat-icon>
     </button>
@@ -125,7 +126,7 @@
       style="color: #673AB7;"
       mat-button
       color="primary"
-      (click)="save()"
+      (click)="data === null ? save() : update()"
       [disabled] = "!change"
     >ENREGISTRER</button>
   </div>

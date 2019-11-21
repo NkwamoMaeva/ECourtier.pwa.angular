@@ -7,7 +7,7 @@ import { InsurerConfirmationDialogComponent } from './insurer/insurer-confirmati
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatTooltipModule } from '@angular/material';
+import {MatTooltipModule, MatTreeModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -70,8 +70,8 @@ import {UserDialogComponent} from './users/user-dialog/user-dialog.component';
       UsersComponent,
      UserDialogComponent
    ],
-   imports: [
-      ServiceWorkerModule.register('ngsw-worker.js'),
+  imports: [
+    ServiceWorkerModule.register('ngsw-worker.js'),
     BrowserModule,
     AppRoutingModule,
     FlexLayoutModule,
@@ -82,6 +82,7 @@ import {UserDialogComponent} from './users/user-dialog/user-dialog.component';
     ReactiveFormsModule,
     MatTooltipModule,
     LayoutModule,
+    MatTreeModule,
   ],
   entryComponents: [
     AddInsurerDialogComponent,

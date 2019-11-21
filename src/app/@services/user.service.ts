@@ -26,12 +26,15 @@ export class UserService extends DataService {
   add(formData: FormData) {
     return this.http.post(this._baseUrl + 'auth/register', formData);
   }
-  update(id: string, user: User) {
-    return this.post('/' + id, user);
-  }
-  deleteA(ids) {
-    return this.post('/delete',{
-      id: ids
+  addUser(user: User): Observable<ResponseRequest<User>> {
+    return this.http.post<ResponseRequest<User>>(this._baseUrl + 'auth/register', {
+      user
     });
+  }
+  update(id: string, user: User): Observable<ResponseRequest<User>> {
+    return this.put<ResponseRequest<User>>('user/' + id, user);
+  }
+  deleteA(ids): Observable<ResponseRequest<User>> {
+    return this.delete('user/' + ids);
   }
 }

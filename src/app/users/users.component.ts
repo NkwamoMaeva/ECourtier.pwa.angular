@@ -8,6 +8,7 @@ import {UserService} from '../@services/user.service';
 import {UserDialogComponent} from './user-dialog/user-dialog.component';
 import {ResponseRequest} from '../@models/responseRequest';
 import {ToastService} from '../@services/toast.service';
+import {AuthService} from '../@services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -15,6 +16,7 @@ import {ToastService} from '../@services/toast.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, AfterViewInit {
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input('users') users: User[];
   @Input('minimal') minimal: boolean;
@@ -26,15 +28,30 @@ export class UsersComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['select', 'displayed_name', 'username', 'company', 'registration_date', 'more-actions'];
   isSearch = false;
   selection = new SelectionModel<User>(true, []);
+
+  /**
+   * Constructeur
+   * @param route: ActivatedRoute
+   * @param dialog: MatDialog
+   * @param contentHeaderService: ContentHeaderService
+   * @param router: Router
+   * @param userService: UserService
+   * @param toast: ToastSertvice
+   * @param auth: AuthService
+   */
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private contentHeaderService: ContentHeaderService,
     private router: Router,
     private userService: UserService,
-    private toast: ToastService
+    private toast: ToastService,
+    private auth: AuthService
   ) { }
 
+  /**
+   * Parametre l'interface en ajoutant le titre et les donnée au tableau
+   */
   ngOnInit(): void {
 
     this.contentHeaderService.contentHeader$.next(
@@ -91,53 +108,40 @@ export class UsersComponent implements OnInit, AfterViewInit {
     const str = mydate.toDateString();
     return str;
   }
-  getTitle() {
+
+  /***
+   * retourne le titre de la page
+   * @return string
+   */
+  getTitle(): string {
     return 'Utilisateurs';
   }
+  /***
+   * Ajoute un utilisateur à la base de donnée
+   */
   addUser() {
     const dialogRef = this.dialog.open(UserDialogComponent, {data: null});
     dialogRef.afterClosed().subscribe(value => {
       if (value === false) {
         this.refresh();
-      } else {
-        console.log('Fuck');
       }
       console.log(value);
     });
   }
 
+  /**
+   * Modifie un utilisateur passé en paramètre
+   * @param row de type User
+   */
   update(row: User) {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       data: new User(row)
     });
-    dialogRef.afterClosed().subscribe(
-      value => {
-        if (value === false) {
-          this.refresh();
-        } else {
-          console.log('Fuck');
-        }
-        console.log(value);
-      }
-    );
   }
-  // showDialog(user: User = null) {
-  //   dialogRef = null;
-  //   if (user === null) {
-  //     dialogRef = this.dialog.open(UserDialogComponent, {data: null});
-  //   } else {
-  //     dialogRef = this.dialog.open(UserDialogComponent, {
-  //       data: new User(user)
-  //     });
-  //   }
-  //   dialogRef.afterClosed().subscribe(
-  //     value => {
-  //       if (value === true) {
-  //         this.refresh();
-  //       }
-  //     }
-  //   );
-  // }
+
+  /**
+   * Recupère les utilisateurs dans la base de donnée les envoies au tableau
+   */
   getData() {
     this.userService.getUsers().subscribe(
       value => {
@@ -157,5 +161,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
       error1 => {
         console.log(error1);
       });
+  }
+  delete(id: number) {
+    this.userService.deleteA(id);
   }
 }
