@@ -140,10 +140,10 @@
               #tableMenu = "matMenu"
               xPosition="before"
             >
-              <button mat-menu-item>
+              <button mat-menu-item (click)="update(element)">
                 <mat-icon>edit</mat-icon>Modifier
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="openAuthDialog(element)">
                 <mat-icon style="color:brown">delete</mat-icon>Supprimer
               </button>
             </mat-menu>

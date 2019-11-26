@@ -42,6 +42,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { TransactionUpdateComponent } from './transactions/transaction-update/transaction-update.component';
 import { UsersComponent } from './users/users.component';
 import {UserDialogComponent} from './users/user-dialog/user-dialog.component';
+import {UserDialogDeleteComponent} from "./users/user-dialog-delete/user-dialog-delete.component";
 
 @NgModule({
    declarations: [
@@ -68,7 +69,8 @@ import {UserDialogComponent} from './users/user-dialog/user-dialog.component';
       SettingsComponent,
       TransactionUpdateComponent,
       UsersComponent,
-     UserDialogComponent
+     UserDialogComponent,
+     UserDialogDeleteComponent,
    ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js'),
@@ -94,6 +96,7 @@ import {UserDialogComponent} from './users/user-dialog/user-dialog.component';
     TransactionConfirmationDialogComponent,
     SettingsComponent,
     UserDialogComponent,
+    UserDialogDeleteComponent,
   ],
   providers: [
     TransactionService,

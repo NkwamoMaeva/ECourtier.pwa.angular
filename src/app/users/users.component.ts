@@ -9,6 +9,8 @@ import {UserDialogComponent} from './user-dialog/user-dialog.component';
 import {ResponseRequest} from '../@models/responseRequest';
 import {ToastService} from '../@services/toast.service';
 import {AuthService} from '../@services/auth.service';
+import {Observable} from "rxjs";
+import {UserDialogDeleteComponent} from "./user-dialog-delete/user-dialog-delete.component";
 
 @Component({
   selector: 'app-users',
@@ -108,7 +110,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     const str = mydate.toDateString();
     return str;
   }
-
   /***
    * retourne le titre de la page
    * @return string
@@ -128,7 +129,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
       console.log(value);
     });
   }
-
   /**
    * Modifie un utilisateur passé en paramètre
    * @param row de type User
@@ -138,7 +138,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
       data: new User(row)
     });
   }
-
   /**
    * Recupère les utilisateurs dans la base de donnée les envoies au tableau
    */
@@ -162,7 +161,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
         console.log(error1);
       });
   }
-  delete(id: number) {
-    this.userService.deleteA(id);
+  openAuthDialog(user: User) {
+    const dialogRef = this.dialog.open(UserDialogDeleteComponent, {
+      data: user
+    });
   }
 }

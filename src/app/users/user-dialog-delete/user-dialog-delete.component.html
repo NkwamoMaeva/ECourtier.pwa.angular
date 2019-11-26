@@ -1,0 +1,53 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start start"
+  fxLayoutGap="12px"
+>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    class="w-100"
+  >
+    <h3>Pour la suppression de l'utilisateur <span style="font-weight: bold;">{{data.username}}</span> veillez vous authentifier s'il vous plaît </h3>
+    <span fxFlex></span>
+    <button
+    mat-icon-button
+    mat-dialog-close="true"
+    id="myclose-btn"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  </div>
+  <mat-form-field class="w-100">
+    <input
+      matInput
+      [(ngModel)]="username"
+      placeholder="Nom d'utilisateur"
+    >
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <input
+      matInput
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Mot de passe"
+    >
+  </mat-form-field>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end start"
+    class="w-100"
+  >
+    <button
+      mat-dialog-close="false"
+      mat-button
+      style="color: #673AB7;"
+    >ANNULER</button>
+    <button
+      style="color: #673AB7;"
+      mat-button
+      color="primary"
+      (click)="delete()"
+    >SUPPRIMER</button>
+  </div>
+</div>

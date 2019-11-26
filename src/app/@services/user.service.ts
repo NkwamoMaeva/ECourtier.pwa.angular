@@ -7,6 +7,7 @@ import {LoaderService} from './loader.service';
 import {Observable} from 'rxjs';
 import {User} from '../@models/user';
 import {ResponseRequest} from '../@models/responseRequest';
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class UserService extends DataService {
     protected http: HttpClient,
     protected storage: StorageService,
     protected toastService: ToastService,
+    protected auth: AuthService,
     protected loaderService: LoaderService) {
     super(http, storage, 'Users', toastService, loaderService);
   }
@@ -36,5 +38,8 @@ export class UserService extends DataService {
   }
   deleteA(ids): Observable<ResponseRequest<User>> {
     return this.delete('user/' + ids);
+  }
+  deleteUser(id: number, username: string, password: string): Observable<ResponseRequest<User>> {
+    return this.delete<ResponseRequest<User>>('user/' + id + '?username=' + username + '&password=' + password);
   }
 }
