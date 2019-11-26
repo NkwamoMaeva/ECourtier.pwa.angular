@@ -3,8 +3,8 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 import {User} from '../../@models/user';
 import {UserService} from '../../@services/user.service';
 import {AuthService} from '../../@services/auth.service';
-import {ToastService} from "../../@services/toast.service";
-import {Router} from "@angular/router";
+import {ToastService} from '../../@services/toast.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-dialog-delete',
@@ -42,6 +42,9 @@ export class UserDialogDeleteComponent implements OnInit {
       this.router.navigate(uri)
     );
   }
+  /**
+   * Effecture la suppression de l'utilisateur @data
+   */
   delete() {
     this.userService.deleteUser(this.data.id, this.username, this.password).subscribe(
       value => {

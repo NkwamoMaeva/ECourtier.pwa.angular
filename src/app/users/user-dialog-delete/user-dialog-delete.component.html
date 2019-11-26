@@ -8,7 +8,7 @@
     fxLayoutAlign="start center"
     class="w-100"
   >
-    <h3>Pour la suppression de l'utilisateur <span style="font-weight: bold;">{{data.username}}</span> veillez vous authentifier s'il vous plaît </h3>
+    <h3>Suppression de <span style="font-weight: bold;">{{data.username}}</span></h3>
     <span fxFlex></span>
     <button
     mat-icon-button
@@ -23,6 +23,7 @@
       matInput
       [(ngModel)]="username"
       placeholder="Nom d'utilisateur"
+      disabled
     >
   </mat-form-field>
   <mat-form-field class="w-100">

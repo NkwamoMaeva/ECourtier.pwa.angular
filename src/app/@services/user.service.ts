@@ -7,7 +7,7 @@ import {LoaderService} from './loader.service';
 import {Observable} from 'rxjs';
 import {User} from '../@models/user';
 import {ResponseRequest} from '../@models/responseRequest';
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
