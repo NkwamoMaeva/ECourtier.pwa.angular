@@ -101,7 +101,7 @@
               <span>
                 <mat-chip-list>
                 {{element.first_name + ' ' + element.last_name}}
-                  <mat-chip color="accento" style="font-size: 10px" selected>AD</mat-chip>
+                  <mat-chip color="accent" style="font-size: 10px" selected *ngIf="element.is_admin">AD</mat-chip>
                 </mat-chip-list>
               </span>
             </div>
