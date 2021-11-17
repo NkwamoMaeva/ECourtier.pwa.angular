@@ -28,6 +28,7 @@ export class AuthService extends DataService {
   login(username: string, password: string) {
     return this.post<User>('auth/login', { username, password })
       .pipe(map(user => {
+        console.log(user)
         // login successful if there's a jwt token in the response
         // if (user && user.id) {
         // console.log(user);
